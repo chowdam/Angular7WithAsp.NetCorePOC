@@ -1,0 +1,10 @@
+{
+  "tslint.autoFixOnSave": true,
+  "editor.formatOnSave": true,
+  "html.autoClosingTags": true,
+  "tfvc.location": "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\Common7\\IDE\\TF.exe",
+  "terminal.integrated.confirmOnExit": true,
+  "tfvc.restrictWorkspace": true,
+  "appService.defaultWebAppToDeploy": "/subscriptions/e70ca0fd-a264-446e-9892-1cae8d9380dd/resourceGroups/ChowdamOAMA/providers/Microsoft.Web/sites/OAMAPocAngular",
+  "appService.deploySubpath": "dist\\OAMA-POC"
+}

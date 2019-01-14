@@ -1,0 +1,21 @@
+/* Some media queries for responsiveness */
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+.sidenav {
+    height: 600px;
+    width: 300px;
+    position: relative;
+    top: 10px;
+    left: 0;
+    background-color: lightgrey;
+    overflow-x: hidden;
+    padding-top: 5px;
+}

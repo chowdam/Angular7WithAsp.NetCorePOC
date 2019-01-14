@@ -1,0 +1,42 @@
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-2 bg-light">
+         <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/admin" routerLinkActive="active">
+                <i class="fa fa-home"></i>
+                    Admin Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/admin/settings" routerLinkActive="active">
+                <i class="fa fa-cogs"></i>
+                    App Settings
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/admin/inventory" routerLinkActive="inactive">
+                <i class="fa fa-globe"></i>
+                    Inventory
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/admin/notifications" routerLinkActive="inactive">
+                <i class="fa fa-bell"></i>
+                    Notifications
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/admin/notifications" routerLinkActive="inactive">
+                <i class="fa fa-chart"></i>
+                    Reports
+              </a>
+            </li>
+          </ul>
+    </div>
+    <div class="col pt-2">
+    <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

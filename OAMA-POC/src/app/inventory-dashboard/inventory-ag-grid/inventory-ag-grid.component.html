@@ -1,0 +1,70 @@
+
+
+<div class="container-fluid" style="width: 100%;">
+<div class="card" style="width: 100%; margin-top: 50px">
+  <div class="card-header">
+    <h2 text-align="center">
+    Inventory List using AgGrid's Grid Control
+    </h2>
+
+  </div>
+  <div text-align="left" style="width: 100%; margin-top: 10px;margin-left: 30px">
+        <span> Reset All Filters: </span> <br>
+       
+        <div class="button-bar">
+            <button (click)="getSelectedRows()">Get Selected Rows</button> &nbsp;
+            <button (click)="sizeToFit()">Size to Fit</button>&nbsp;
+            <button (click)="autoSizeAll()">Auto-Size All</button> &nbsp;&nbsp;
+            Page Size:
+            <select (change)="onPageSizeChanged()" id="page-size">
+            <option value="10" selected="">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="500">500</option>
+            </select>
+
+        </div>
+
+      </div>
+  <div class="card-body">
+        <ag-grid-angular 
+                #agGrid
+                style="width: 90%; height: 600px;" 
+                class="ag-theme-balham"
+                [rowData]="inventory" 
+                [columnDefs]="columnDefs" 
+                rowSelection="multiple"                               
+                [pagination]="true"
+                [paginationPageSize]="paginationPageSize"
+                [paginationAutoPageSize]="true" 
+                [paginationNumberFormatter]="paginationNumberFormatter"
+                (firstDataRendered)="onFirstDataRendered($event)"           
+                (gridReady)="onGridReady($event)"
+                >
+        </ag-grid-angular>
+
+       <!--
+            <ag-grid-angular 
+                #agGrid
+                style="width: 90%; height: 600px;" 
+                class="ag-theme-balham"
+                [rowData]="inventory" 
+                [columnDefs]="columnDefs" 
+                rowSelection="multiple"
+                [pagination]="true"
+                [paginationPageSize]="paginationPageSize"
+                [paginationNumberFormatter]="paginationNumberFormatter"
+                (firstDataRendered)="onFirstDataRendered($event)"
+                (gridReady)="onGridReady($event)"
+                >
+        </ag-grid-angular>
+        -->
+        <br>
+        <div>
+           Selected Items:     {{selectedDataStringPresentation}}
+        </div>
+  </div>
+</div>
+</div>

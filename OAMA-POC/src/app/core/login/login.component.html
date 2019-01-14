@@ -1,0 +1,76 @@
+<div class="container" align="center">
+
+
+
+    <div class="row">
+          <div class="col-xs-12">
+              <div class="alert alert-danger" *ngIf="securityObject && !securityObject.isAuthenticated">
+                  <p>Invalid User Name/Password.</p>
+              </div>
+          </div>
+    </div>
+
+    <!-- TEMPORARY CODE TO VIEW SECURITY OBJECT -->
+    <div class="row">
+        <div class="col-xs-12">
+            <label>{{securityObject | json}}</label>
+        </div>
+    </div>
+
+   <div class="row">
+
+
+
+      <div class="col-xs-12 col-sm-4"  align="center">
+          <form  #loginForm="ngForm" (ngSubmit)="login()" autocomplete="off" novalidate>
+            <div class="card" align="left">
+                <div class="card-header">
+                    Login
+                </div>
+                <div class="card-body">
+                            <div class="form-group">
+                                <label for="userName"><i class="fa fa-envelope fa-md"></i>  User Name</label>
+                                 <em *ngIf="loginForm.controls.userName?.invalid && (loginForm.controls.userName?.touched || mouseoverLogin)">Required</em>
+                                <div class="input-group">
+                                    <input id="userName"
+                                    name="userName"
+                                    placeholder="Username (required)"
+                                    class="form-control"
+                                    required
+                                    minLength="3"
+                                    [(ngModel)]="user.userName"
+                                    #usernameEle="ngModel"
+                                    [ngClass]="{'is-invalid': (usernameEle.touched || usernameEle.dirty ) &&  !usernameEle.valid }" />
+                                    <span class="input-group-addon"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password"><i class="fa fa-lock fa-md"></i> Password</label>
+                                 <em *ngIf="loginForm.controls.password?.invalid  && (loginForm.controls.password?.touched || mouseoverLogin)">Required</em>
+                                <div class="input-group">
+                                    <input id="password" name="password" class="form-control" required  minLength="3" [(ngModel)]="user.password" type="password"
+                                    #passwordEle="ngModel"
+                                    [ngClass]="{'is-invalid': (passwordEle.touched || passwordEle.dirty ) &&  !passwordEle.valid }" /> &nbsp;
+                                    <span class="input-group-addon"> </span>
+                                </div>
+                            </div>
+                        </div>
+                <div class="card-footer">
+                <span (mouseenter)="mouseoverLogin=true" (mouseleave)="mouseoverLogin=false">
+                    <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary" >Login</button>
+                    </span>
+                    &nbsp;
+                    <button type="button" (click)="cancel()" class="btn btn-default">Cancel</button>
+                </div>
+            </div>
+          </form>
+      </div>
+    </div>
+
+<div class='alert alert-danger'
+     *ngIf='errorMessage'>{{errorMessage}}
+</div>
+
+</div>
+
+
