@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   securityObject: AppUserAuth;
   returnUrl: string;
   errorMessage: string;
+  mouseoverLogin = false;
   loginInvalid = false;
 
   @ViewChild('usernameEle') usernameEleRef: ElementRef;

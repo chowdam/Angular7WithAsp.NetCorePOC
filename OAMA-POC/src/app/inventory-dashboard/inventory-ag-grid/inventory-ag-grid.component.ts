@@ -13,11 +13,11 @@ export class InventoryAgGridComponent implements OnInit {
 
   inventory: Inventory[] = [];
   selectedDataStringPresentation: string;
-  private columnDefs;
-  private gridApi;
-  private gridColumnApi;
-  private paginationPageSize;
-  private paginationNumberFormatter;
+  columnDefs;
+  gridApi;
+  gridColumnApi;
+  paginationPageSize;
+  paginationNumberFormatter;
 
   constructor(private route: ActivatedRoute) {
     this.paginationPageSize = 10;
@@ -183,7 +183,7 @@ export class InventoryAgGridComponent implements OnInit {
     params.api.sizeColumnsToFit();
   }
 
-  onPageSizeChanged(newPageSize) {
+  onPageSizeChanged() {
     const value = (<HTMLInputElement>document.getElementById('page-size'))
       .value;
     // document.getElementById('page-size').value;
