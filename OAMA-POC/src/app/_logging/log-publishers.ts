@@ -46,4 +46,11 @@ export class LogLocalStorage extends LogPublishers {
     localStorage.removeItem(this.location);
     return of(true);
   }
+
+  getAll(): Observable<LogEntry[]> {
+    let values: LogEntry[];
+    values = JSON.parse(localStorage.getItem(this.location)) || [];
+
+    return of(values);
+  }
 }

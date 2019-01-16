@@ -1,0 +1,27 @@
+<h2>Application Alerts &amp; Logs </h2>
+<hr>
+<p>
+  log works!
+</p>
+
+<br>
+<button class="btn btn-primary" (click)="testlog()">Test Log </button>
+
+&nbsp;&nbsp; &nbsp;&nbsp;
+
+<button class="btn btn-warning" (click)="clearlog()">Clear Log </button>
+
+<br>
+<br>
+
+<button class="btn btn-warning" (click)="getLocalStorage()">Get From Local Storage </button>
+
+<br>
+<br>
+
+<ul>
+  <li *ngFor="let log of logEntries">
+      {{log.message}}
+  </li>
+</ul>
+

@@ -1,3 +1,4 @@
+import { LogComponent } from './log/log.component';
 import { AppSettingsComponent } from './app-settings/app-settings.component';
 import { AdminComponent } from './admin/admin.component';
 import { NgModule } from '@angular/core';
@@ -13,6 +14,10 @@ const routes: Routes = [
       {
         path: 'settings',
         component: AppSettingsComponent
+      },
+      {
+        path: 'log',
+        component: LogComponent
       }
     ]
   },

@@ -10,12 +10,4 @@ export class AppSettingsComponent implements OnInit {
   constructor(private logger: LoggingService) {}
 
   ngOnInit() {}
-
-  testlog() {
-    this.logger.log('Test the log method', 'Lakshmi', 'Chowdam');
-  }
-
-  clearlog() {
-    this.logger.clear();
-  }
 }

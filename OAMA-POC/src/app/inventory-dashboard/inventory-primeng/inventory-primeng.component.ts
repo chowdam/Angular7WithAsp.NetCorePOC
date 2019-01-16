@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Inventory } from './../inventory';
 import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/api';
-import {DataTableModule} from 'primeng/datatable';
+import { DataTableModule } from 'primeng/datatable';
 
 @Component({
   selector: 'app-inventory-primeng',
@@ -13,15 +13,13 @@ export class InventoryPrimengComponent implements OnInit {
   inventory: Inventory[] = [];
   selectedInventory: Inventory[] = [];
   cols: any[];
-  
+
   pageSize: SelectItem[];
   selectPageSize = 20;
   selectedColumns: any[];
 
-
   constructor(private route: ActivatedRoute) {}
 
-  
   ngOnInit() {
     this.inventory = <Inventory[]>this.route.snapshot.data['inventory'];
     // console.log('Data for primeng table: ' + this.inventory);
@@ -70,12 +68,11 @@ export class InventoryPrimengComponent implements OnInit {
     ];
 
     this.selectedColumns = this.cols;
-    console.log('this.selectedColumns:' + this.selectedColumns);
+    // console.log('this.selectedColumns:' + this.selectedColumns);
   }
 
-
   resetTable(dt: any) {
-    //console.log('type of dt:' + typeof dt);
+    // console.log('type of dt:' + typeof dt);
     dt.reset();
-}
+  }
 }

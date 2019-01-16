@@ -25,6 +25,7 @@
               [reorderableColumns]="true"
               stateStorage="session" stateKey="inventoryState"
               dataKey="serialNumber">
+
           <ng-template pTemplate="caption">
               <tr>
                 <td>
@@ -95,18 +96,26 @@
               </tr>
           </ng-template>
 
-          <ng-template pTemplate="body" let-rowData let-columns="columns">
-              <tr >
+
+          <ng-template pTemplate="body" let-rowData let-columns="columns" let-ri="rowIndex">
+              <tr [pSelectableRow]="rowData">
                   <td style="width: 40px" >
                       <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+
                   </td>
-                  <td *ngFor="let col of columns" style="width:200px"  class="ui-resizable-column">
-                    {{rowData[col.field]}}
+                  <td *ngFor="let col of columns; let i = index; " style="width:200px" class="ui-resizable-column">
+
+                        <span  [ngClass]="{
+                                      'positive' :  inventory[ri][col.field] === inventory[+ri+1][col.field],
+                                      'negative' : inventory[ri][col.field] !== inventory[+ri+1][col.field]
+                                  }">{{rowData[col.field]}}</span>
+
                   </td>
               </tr>
           </ng-template>
 
           <!--
+            Currrent: {{rowData[col.field]}} - Next: {{(inventory[ri][col.field] !== inventory[+ri+1][col.field])? 'Not' : 'Equal'}}
           <ng-template pTemplate="footer" let-columns>
               <tr>
                   <td style="width: 30px" >
