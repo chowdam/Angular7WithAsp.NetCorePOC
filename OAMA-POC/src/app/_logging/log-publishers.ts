@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LogEntry } from './log-entry';
 import { throwError, Observable, of } from 'rxjs';
-import { catchError, map, retry, tap } from 'rxjs/operators';
+import { catchError, retry, tap } from 'rxjs/operators';
 
 export abstract class LogPublishers {
   location: string;
@@ -10,9 +10,15 @@ export abstract class LogPublishers {
   abstract clear(): Observable<boolean>;
 }
 
+export class LogPublisherConfig {
+  loggerName: string;
+  loggerLocation: string;
+  isActive: boolean;
+}
 export class LogConsole extends LogPublishers {
   log(record: LogEntry): Observable<boolean> {
     console.log(record.buildLogString());
+    console.log('published log to console ');
     return of(true);
   }
 
@@ -37,6 +43,7 @@ export class LogLocalStorage extends LogPublishers {
       values = JSON.parse(localStorage.getItem(this.location)) || [];
       values.push(record);
       localStorage.setItem(this.location, JSON.stringify(values));
+      console.log('published log to local storage ');
       ret = true;
     } catch (ex) {
       console.log(ex);
@@ -60,27 +67,33 @@ export class LogLocalStorage extends LogPublishers {
 export class LogWebApi extends LogPublishers {
   constructor(private http: HttpClient) {
     super();
-    this.location = 'htp://localhost:5000/api/log';
+    this.location = 'http://localhost:5000/api/log/client';
   }
+
+  errors: string[] = [];
   log(record: LogEntry): Observable<boolean> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8'
     });
 
-    return this.http.post(this.location, record, { headers: headers }).pipe(
-      retry(3),
-      tap(resp => console.log('published log to web api')),
-      catchError(this.handleErrors)
-    );
+    return this.http
+      .post<any>(this.location, record, { headers: headers })
+      .pipe(
+        retry(3),
+        tap(resp => console.log('published log to web api ' + resp)),
+        catchError(this.handleError)
+      );
   }
 
   clear(): Observable<boolean> {
     return of(true);
   }
 
-  private handleErrors(error: any): Observable<any> {
-    const errors: string[] = [];
+  private handleError(error) {
     let message = '';
+    const errors: string[] = [];
+
+    console.log(error);
 
     message = 'Error Name: ' + error.name;
     message += ' - Status Text' + error.status;

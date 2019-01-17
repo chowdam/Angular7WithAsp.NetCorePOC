@@ -20,6 +20,7 @@ export class AuthGuard implements CanActivate {
     const claimType: string = next.data['claimType'];
 
     if (this.authService.securityObject.isAuthenticated) {
+      this.router.navigate(['home']);
       return true;
     } else {
       this.router.navigate(['login'], {
