@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Inventory } from './../inventory';
 import { ActivatedRoute } from '@angular/router';
 import { AgGridNg2 } from 'ag-grid-angular';
@@ -42,8 +42,8 @@ export class InventoryAgGridComponent implements OnInit {
         checkboxSelection: true
       },
       {
-        field: 'storagePossession',
-        headerName: 'Storage Possession',
+        field: 'assetPossession',
+        headerName: 'Asset Possession',
         width: 150,
         minWidth: 50,
         maxWidth: 200,
@@ -56,7 +56,7 @@ export class InventoryAgGridComponent implements OnInit {
         }
       },
       {
-        field: 'assetUseAge',
+        field: 'assetAge',
         headerName: 'Asset Use Age',
         width: 150,
         minWidth: 50,
@@ -81,6 +81,16 @@ export class InventoryAgGridComponent implements OnInit {
         filterParams: {
           applyButton: true,
           clearButton: true
+        },
+        cellClass: function(params) {
+          console.log(
+            'params cellclass: ' +
+              params.rowIndex +
+              ' - ' +
+              JSON.stringify(params.data)
+          );
+
+          return params.value === '212' ? 'positive' : 'negative';
         }
       },
       {
@@ -98,8 +108,8 @@ export class InventoryAgGridComponent implements OnInit {
         }
       },
       {
-        field: 'installationDate',
-        headerName: 'Installation Date',
+        field: 'associationStartDate',
+        headerName: 'Association StartDate',
         width: 150,
         minWidth: 50,
         maxWidth: 200,
@@ -154,8 +164,8 @@ export class InventoryAgGridComponent implements OnInit {
         }
       },
       {
-        field: 'vehicleType',
-        headerName: 'Vehicle Type',
+        field: 'vehicleOwner',
+        headerName: 'Vehicle Owner',
         width: 150,
         minWidth: 50,
         maxWidth: 200,
@@ -172,6 +182,25 @@ export class InventoryAgGridComponent implements OnInit {
 
   ngOnInit() {
     this.inventory = <Inventory[]>this.route.snapshot.data['inventory'];
+
+    // console.log('inventory loaded: ' + this.inventory);
+  }
+
+  onBtForEachNode() {
+    console.log('### api.forEachNode() ###');
+
+    this.gridApi.forEachNode(this.printNode);
+  }
+
+  printNode(node, index) {
+    if (node.group) {
+      console.log(index + ' -> group: ' + node.key);
+    } else {
+      console.log(index + ' -> data: ' + JSON.stringify(node.data));
+    }
+
+    const curRowNode = this.gridApi.getDisplayedRowAtIndex(index);
+    console.log('curRowNode: ' + curRowNode);
   }
 
   onGridReady(params) {

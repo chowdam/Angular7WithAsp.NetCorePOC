@@ -1,7 +1,8 @@
 .positive {
-    color: green;
+    color: black;
 }
 
 .negative {
+    background-color: beige;
     color: red;
 }

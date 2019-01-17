@@ -3,6 +3,7 @@ import { LogEntry } from './../../_logging/log-entry';
 import { LogLevel } from './../../_logging/log-level';
 import { Component, OnInit } from '@angular/core';
 import { LoggingService } from 'src/app/_logging/logging.service';
+import { Log } from './log';
 
 @Component({
   selector: 'app-log',
@@ -22,16 +23,27 @@ export class LogComponent implements OnInit {
 
   clearlog() {
     this.logger.clear();
+    this.logEntries = [];
+  }
+
+  logObject(): void {
+    const log = new Log();
+    log.id = 1;
+    log.message = 'Log message';
+    log.createdDate = new Date();
+
+    this.logger.log('This is Log Object', log);
   }
 
   getLocalStorage(): void {
     const temp = this.logger.publishers.find(
-      p => p.constructor.name === 'LogLocalSTorage'
+      p => p.constructor.name === 'LogLocalStorage'
     );
+    console.log('temp: ' + temp);
     if (temp != null) {
       const lcoal = temp as LogLocalStorage;
 
-      localStorage.getAll().subscribe(resp => (this.logEntries = resp));
+      lcoal.getAll().subscribe(resp => (this.logEntries = resp));
     }
   }
 }

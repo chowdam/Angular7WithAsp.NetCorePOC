@@ -10,7 +10,7 @@
   </div>
   <div text-align="left" style="width: 100%; margin-top: 10px;margin-left: 30px">
         <span> Reset All Filters: </span> <br>
-       
+
         <div class="button-bar">
             <button (click)="getSelectedRows()">Get Selected Rows</button> &nbsp;
             <button (click)="sizeToFit()">Size to Fit</button>&nbsp;
@@ -24,34 +24,36 @@
             <option value="200">200</option>
             <option value="500">500</option>
             </select>
-
+            &nbsp;&nbsp;&nbsp;
+            <button (click)="onBtForEachNode()">For-Each Node</button>
         </div>
 
       </div>
   <div class="card-body">
-        <ag-grid-angular 
+        <ag-grid-angular
                 #agGrid
-                style="width: 90%; height: 600px;" 
+                style="width: 90%; height: 600px;"
                 class="ag-theme-balham"
-                [rowData]="inventory" 
-                [columnDefs]="columnDefs" 
-                rowSelection="multiple"                               
+                [rowData]="inventory"
+                [columnDefs]="columnDefs"
+                rowSelection="multiple"
                 [pagination]="true"
                 [paginationPageSize]="paginationPageSize"
-                [paginationAutoPageSize]="true" 
+                [paginationAutoPageSize]="true"
                 [paginationNumberFormatter]="paginationNumberFormatter"
-                (firstDataRendered)="onFirstDataRendered($event)"           
+                (firstDataRendered)="onFirstDataRendered($event)"
                 (gridReady)="onGridReady($event)"
                 >
         </ag-grid-angular>
 
+
        <!--
-            <ag-grid-angular 
+            <ag-grid-angular
                 #agGrid
-                style="width: 90%; height: 600px;" 
+                style="width: 90%; height: 600px;"
                 class="ag-theme-balham"
-                [rowData]="inventory" 
-                [columnDefs]="columnDefs" 
+                [rowData]="inventory"
+                [columnDefs]="columnDefs"
                 rowSelection="multiple"
                 [pagination]="true"
                 [paginationPageSize]="paginationPageSize"
@@ -61,6 +63,13 @@
                 >
         </ag-grid-angular>
         -->
+        <br>
+        <div style="position: absolute; top: 0; left: 0;">
+
+
+        </div>
+
+
         <br>
         <div>
            Selected Items:     {{selectedDataStringPresentation}}

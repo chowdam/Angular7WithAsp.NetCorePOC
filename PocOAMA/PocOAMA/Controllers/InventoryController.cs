@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using GenFu;
 using Microsoft.Extensions.Logging;
 using PocOAMA.Models;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace PocOAMA.Controllers
 {
@@ -44,6 +46,38 @@ namespace PocOAMA.Controllers
                 .Fill(c => c.SerialNumber).AsFirstName();
             var inventory = A.ListOf<Inventory>(1000);
             return inventory;
+        }
+
+        [HttpGet("getall")]
+        public IEnumerable<Inventory> GetAll()
+        {
+            _logger.LogDebug($"Called GetPersons method");
+            string json = string.Empty;
+
+            using (StreamReader r = new StreamReader(@"D:\Lakshmi\OPT\OAMAProject\POC\PocOAMA\PocOAMA\Models\MOCK_DATA.json"))
+            {
+                json = r.ReadToEnd();
+
+            }
+
+            List<Inventory> items = JsonConvert.DeserializeObject<List<Inventory>>(json);
+            return items;
+        }
+
+        [HttpGet("getbypage")]
+        public IEnumerable<Inventory> GetByPage(int pagesize, int currPageNumber)
+        {
+            _logger.LogDebug($"Called GetPersons method");
+            string json = string.Empty;
+
+            using (StreamReader r = new StreamReader(@"D:\Lakshmi\OPT\OAMAProject\POC\PocOAMA\PocOAMA\Models\MOCK_DATA.json"))
+            {
+                json = r.ReadToEnd();
+
+            }
+
+            List<Inventory> items = JsonConvert.DeserializeObject<List<Inventory>>(json);
+            return items.Skip((currPageNumber - 1) * pagesize).Take(pagesize).ToList();
         }
 
 

@@ -17,7 +17,8 @@
 
       <p-table  #dt [columns]="selectedColumns" [value]="inventory"
               sortMode="multiple"
-              [paginator]="true" [rows]="selectPageSize"
+              [paginator]="true"
+              [rows]="selectPageSize"
               [scrollable]="true"
               [style]="{width:'100%'}" scrollHeight="600px"
               selectionMode="multiple" [(selection)]="selectedInventory"
@@ -62,6 +63,15 @@
 
                         <button class="btn btn-info" type="button" pButton  class="ui-button-raised ui-button-rounded"
                           label="Selection Only" (click)="dt.exportCSV({selectionOnly:true})"></button>
+                    </div>
+                </td>
+                <td style="width:20px"></td>
+                <td >
+                  <div class="ui-helper-clearfix">
+                    <span> Go to Page: </span>     &nbsp; <p-dropdown [options]="pageNumber" [(ngModel)]="currentPageNumber"></p-dropdown><br>
+                    <small class="text-muted">
+                        &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;Max Page Size: 500
+                    </small>
                     </div>
                 </td>
               </tr>

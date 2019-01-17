@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { throwError, Observable, of } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpRequest,
+  HttpEvent,
+  HttpEventType
+} from '@angular/common/http';
 import { Inventory } from './inventory';
 import { tap, catchError } from 'rxjs/operators';
 import { Asset } from './asset';
@@ -20,6 +27,32 @@ export class InventoryService {
     );
   }
 
+  getAllInventory(): Observable<Inventory[]> {
+    return this.http.get<Inventory[]>(this.inventoryUrl + '/getall').pipe(
+      tap(data => console.log('Get Inventory data called from service ')),
+      catchError(this.handleError)
+    );
+  }
+
+  getInventoryByPage(
+    pageSize: number,
+    currPage: number
+  ): Observable<Inventory[]> {
+    const ps = pageSize.toString();
+    const pi = currPage.toString();
+    console.log('pageSize, currPage ' + ps + ' - ' + pi);
+    const params = new HttpParams().set('pageSize', ps).set('currPage', pi); // Create new HttpParams
+    console.log('params: ' + JSON.stringify(params));
+    return this.http
+      .get<Inventory[]>(this.inventoryUrl + '/get', { params: params })
+      .pipe(
+        tap(data =>
+          console.log('Get Inventory data by pagesize called from service ')
+        ),
+        catchError(this.handleError)
+      );
+  }
+
   getAsset(id: number): Observable<Asset> {
     if (id === 0) {
       return of(this.initializeAsset());
@@ -29,6 +62,29 @@ export class InventoryService {
       tap(data => console.log('getAsset: ' + JSON.stringify(data))),
       catchError(this.handleError)
     );
+  }
+
+  getData() {
+    const req = new HttpRequest('GET', this.inventoryUrl, {
+      reportProgress: true
+    });
+
+    this.http.request(req).subscribe((event: HttpEvent<any>) => {
+      switch (event.type) {
+        case HttpEventType.Sent:
+          console.log('Request sent!');
+          break;
+        case HttpEventType.ResponseHeader:
+          console.log('Response header received!');
+          break;
+        case HttpEventType.DownloadProgress:
+          const kbLoaded = Math.round(event.loaded / 1024);
+          console.log(`Download in progress! ${kbLoaded}Kb loaded`);
+          break;
+        case HttpEventType.Response:
+          console.log('😺 Done!', event.body);
+      }
+    });
   }
 
   private handleError(err) {

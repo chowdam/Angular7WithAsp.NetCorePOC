@@ -1,0 +1,8 @@
+.positive {
+    color: black;
+}
+
+.negative {
+    background-color: beige;
+    color: red;
+}

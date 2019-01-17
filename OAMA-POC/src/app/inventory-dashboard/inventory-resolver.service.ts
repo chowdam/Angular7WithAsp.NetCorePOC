@@ -20,6 +20,6 @@ export class InventoryResolverService implements Resolve<Inventory[]> {
     state: RouterStateSnapshot
   ): Observable<Inventory[]> {
     console.log('Inventory data called from resolver... ');
-    return this.inventoryService.getInventory();
+    return this.inventoryService.getAllInventory();
   }
 }

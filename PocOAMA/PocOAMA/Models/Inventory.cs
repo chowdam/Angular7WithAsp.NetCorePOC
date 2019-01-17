@@ -5,16 +5,19 @@ using System.Threading.Tasks;
 
 namespace PocOAMA.Models
 {
+
+
     public class Inventory
     {
         public string SerialNumber { get; set; }
 
-        public string StoragePossession { get; set; }
+        public string AssetPossession { get; set; }
 
         public int AssetStatus { get; set; }
 
 
-        public int AssetUseAge { get; set; }
+        public int AssetAge { get; set; }
+        public int AssetUseTime { get; set; }
 
         public string Notes { get; set; }
 
@@ -57,12 +60,13 @@ namespace PocOAMA.Models
 
         public string VehicleAssociationStatus { get; set; }
 
-        public DateTime InstallationDate { get; set; }
+        public DateTime DateAcquired { get; set; }
+        public DateTime DateRetired { get; set; }
 
 
-        public DateTime DeinstallationDate { get; set; }
+        public DateTime AssociationStartDate { get; set; }
 
-        public DateTime ReinstallationDate { get; set; }
+        public DateTime AssociationEndDate { get; set; }
 
         public DateTime BillingStartDate { get; set; }
 
@@ -75,6 +79,8 @@ namespace PocOAMA.Models
 
 
     }
+
+
 
     public class InventoryDto
     {

@@ -71,7 +71,7 @@ export class LoggingService {
         logegr.log(entry).subscribe(resp => console.log(resp));
       }
 
-      console.log(entry.buildLogString());
+      // console.log(entry.buildLogString());
     }
   }
 }

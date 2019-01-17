@@ -14,12 +14,16 @@
 <br>
 <br>
 
+<button class="btn btn-warning" (click)="logObject()">Log Object </button>
+<br>
+<br>
+
 <button class="btn btn-warning" (click)="getLocalStorage()">Get From Local Storage </button>
 
 <br>
 <br>
 
-<ul>
+<ul >
   <li *ngFor="let log of logEntries">
       {{log.message}}
   </li>

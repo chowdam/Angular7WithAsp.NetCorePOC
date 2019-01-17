@@ -6,7 +6,7 @@
   "configurations": [{
       "type": "chrome",
       "request": "launch",
-      "name": "Launch Chrome against localhost",
+      "name": "Launch Chrome against angular",
       "url": "http://localhost:3000",
       "sourceMaps": true,
       "webRoot": "${workspaceFolder}"
