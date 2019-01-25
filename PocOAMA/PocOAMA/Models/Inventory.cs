@@ -170,4 +170,74 @@ namespace PocOAMA.Models
     }
 
 
+    public class AssetVM
+    {
+        public string SerialNumber { get; set; }
+        public string TtnmAccount { get; set; }
+
+        public string TtnmGroup { get; set; }
+
+        public string SoftwareType { get; set; }
+        public int AssetAge { get; set; }
+        public int AssetUseTime { get; set; }
+
+
+        public DateTime AcquiredDate { get; set; }
+        public DateTime RetiredDate { get; set; }
+
+        public string AssetNotes { get; set; }
+
+
+
+
+        public int AssetStatus { get; set; }
+
+        public string AssetPossession { get; set; }
+
+
+
+
+        // Vehicle Association related
+
+        public string AssociationStatus { get; set; }
+
+        public DateTime AssociationStartDate { get; set; }
+
+        public DateTime AssociationEndDate { get; set; }
+
+
+
+
+        // Vehicle  related
+        //public Vehicle Vehicle { get; set; } = new Vehicle();
+        /// vehicle related properties
+
+        public string VIN { get; set; }
+
+
+        public string ModelYear { get; set; }
+
+        public int VehicleAge { get; set; }
+        public string VehicleType { get; set; }
+
+        public string VehicleStatus { get; set; }
+
+        public string BusNumber { get; set; }
+
+        public string LicensePlate { get; set; }
+
+        public string Garage { get; set; }
+
+
+
+        public string SBCName { get; set; }
+
+        public string SBCCode { get; set; }
+
+        public string VehicleOwner { get; set; }
+
+
+    }
+
+
 }

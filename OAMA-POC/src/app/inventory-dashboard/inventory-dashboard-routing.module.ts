@@ -1,40 +1,39 @@
-
-import { AssetResolverService } from './asset-resolver.service';
-import { AssetDetailComponent } from './asset-detail/asset-detail.component';
-import { InventoryListComponent } from './inventory-list/inventory-list.component';
-import { InventoryPrimengComponent } from './inventory-primeng/inventory-primeng.component';
-import { InventoryAgGridComponent } from './inventory-ag-grid/inventory-ag-grid.component';
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../_security/auth.guard';
-import { InventoryResolverService } from './inventory-resolver.service';
+import { AuthGuard } from "./../_security/auth.guard";
+import { AssetResolverService } from "./asset-resolver.service";
+import { AssetDetailComponent } from "./asset-detail/asset-detail.component";
+import { InventoryListComponent } from "./inventory-list/inventory-list.component";
+import { InventoryPrimengComponent } from "./inventory-primeng/inventory-primeng.component";
+import { InventoryAgGridComponent } from "./inventory-ag-grid/inventory-ag-grid.component";
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { InventoryResolverService } from "./inventory-resolver.service";
 
 const routes: Routes = [
   {
-    path: 'inventory',
+    path: "inventory",
     component: InventoryListComponent,
-    resolve: { inventory: InventoryResolverService },
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    resolve: { inventory: InventoryResolverService }
   },
   {
-    path: 'primeng',
+    path: "primeng",
     component: InventoryPrimengComponent,
-    resolve: { inventory: InventoryResolverService },
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    resolve: { inventory: InventoryResolverService }
   },
   {
-    path: 'aggrid',
+    path: "aggrid",
     component: InventoryAgGridComponent,
-    resolve: { inventory: InventoryResolverService },
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    resolve: { inventory: InventoryResolverService }
   },
   {
-    path: 'asset/:id',
+    path: "asset/:id",
     component: AssetDetailComponent,
-    resolve: { asset: AssetResolverService },
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    resolve: { asset: AssetResolverService }
   },
-  { path: '', redirectTo: '/inventory', pathMatch: 'full' }
+  { path: "", redirectTo: "/inventory", pathMatch: "full" }
 ];
 
 @NgModule({

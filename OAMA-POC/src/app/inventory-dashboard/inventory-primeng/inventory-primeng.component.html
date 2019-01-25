@@ -3,6 +3,7 @@
 
 
 <div class="container-fluid" style="width: 100%;">
+
 <div class="card" style="width: 100%; margin-top: 50px">
   <div class="card-header">
     <h2 text-align="center">
@@ -29,6 +30,7 @@
 
           <ng-template pTemplate="caption">
               <tr>
+                <td style="width:20px"></td>
                 <td>
                 <div class="ui-helper-clearfix">
                       <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
@@ -75,10 +77,7 @@
                     </div>
                 </td>
               </tr>
-
           </ng-template>
-
-
           <ng-template pTemplate="colgroup" let-columns>
                   <colgroup>
                       <col *ngFor="let col of columns" [style.width]="col.width">
@@ -90,36 +89,37 @@
                   <th style="width: 40px; margin:2px 2px 2px 2px">
                       <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                   </th>
+                  <th style="width: 50px; margin:2px 2px 2px 2px">
+                  </th>
                   <th *ngFor="let col of columns" style="width:200px"  [pSortableColumn]="col.field"  pResizableColumn pReorderableColumn>
                       {{col.header}}
                       <p-sortIcon [field]="col.field"></p-sortIcon>
                   </th>
               </tr>
-            <tr>
-                  <th style="width: 40px">
+              <tr>
+                  <th style="width: 50px">
                   </th>
-                  <th *ngFor="let col of columns" [ngSwitch]="col.field" class="ui-fluid">
-                         <input pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)" [value]="dt.filters[col.field]?.value">
-
-                </th>
-
+<th style="width: 40px">
+                  </th>
+                  <th *ngFor="let col of columns" style="width:200px" [ngSwitch]="col.field" class="ui-fluid">
+                         <input pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)"
+                          [value]="dt.filters[col.field]?.value">
+                  </th>
               </tr>
           </ng-template>
 
 
           <ng-template pTemplate="body" let-rowData let-columns="columns" let-ri="rowIndex">
               <tr [pSelectableRow]="rowData">
+
                   <td style="width: 40px" >
                       <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-
                   </td>
-                  <td *ngFor="let col of columns; let i = index; " style="width:200px" class="ui-resizable-column">
-
-                        <span  [ngClass]="{
-                                      'positive' :  inventory[ri][col.field] === inventory[+ri+1][col.field],
-                                      'negative' : inventory[ri][col.field] !== inventory[+ri+1][col.field]
-                                  }">{{rowData[col.field]}}</span>
-
+                  <td style="width: 50px" >
+                      <p-button width="20px" label="" icon="fa fa-edit" (onClick)="editAsset('/asset',rowData)" class="ui-button-raised"></p-button>
+                  </td>
+                 <td *ngFor="let col of columns; let i = index; " style="width:200px" class="ui-resizable-column">
+                        <span>{{rowData[col.field]}}</span>
                   </td>
               </tr>
           </ng-template>
@@ -152,7 +152,13 @@
 
 
 
-
+<!--for history - highlighting:-->
+<!--
+                        <span *ngIf="col.header!=='serialNumber'"  [ngClass]="{
+                                      'positive' :  inventory[ri][col.field] === inventory[+ri+1][col.field],
+                                      'negative' : inventory[ri][col.field] !== inventory[+ri+1][col.field]
+                                  }">{{rowData[col.field]}}</span>
+-->
 
 
 

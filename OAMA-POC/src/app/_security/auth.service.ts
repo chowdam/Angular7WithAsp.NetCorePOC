@@ -1,12 +1,13 @@
-import { Observable, BehaviorSubject, throwError } from 'rxjs';
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, tap, catchError } from 'rxjs/operators';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { AppUserAuth } from './app-user-auth';
-import { of } from 'rxjs';
+import { Observable, BehaviorSubject, throwError } from "rxjs";
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { map, tap, catchError } from "rxjs/operators";
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { AppUserAuth } from "./app-user-auth";
+import { of } from "rxjs";
 import { AppUser } from './app-user';
 import { LOGIN_MOCKS } from './login-mocks';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -18,7 +19,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
-  baseUrl = 'http://localhost:5000/api/user/';
+  baseUrl = environment.baseUrl + '/api/user/';
   userName = '';
 
   jwtHelper = new JwtHelperService();

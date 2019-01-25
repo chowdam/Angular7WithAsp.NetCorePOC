@@ -4,7 +4,10 @@
     "scripts": {
         "ng": "ng",
         "stats": "npx webpack-bundle-analyzer dist/OAMA-POC/stats.json",
-        "start": "ng serve --port=3000",
+        "buildstats": "ng build --stats-json",
+        "buildsourcemaps": "ng build --source-map ",
+        "buildlocal": "ng build --source-map --stats-json",
+        "start": "ng serve --port=3000 --proxy-config proxy.conf.json",
         "build": "ng build --prod --aot --source-map --stats-json",
         "test": "ng test",
         "lint": "ng lint",
@@ -38,10 +41,11 @@
         "primeng": "^7.0.4",
         "rxjs": "~6.3.3",
         "tslib": "^1.9.3",
+        "web-animations-js": "^2.3.1",
         "zone.js": "~0.8.26"
     },
     "devDependencies": {
-        "@angular-devkit/build-angular": "~0.11.0",
+        "@angular-devkit/build-angular": "^0.12.2",
         "@angular/cli": "~7.1.4",
         "@angular/compiler-cli": "~7.1.0",
         "@angular/language-service": "~7.1.0",

@@ -55,9 +55,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
           if (this.route.snapshot.queryParamMap.get('returnUrl')) {
             // console.log(this.route.snapshot.queryParamMap.get('returnUrl'));
-            this.router.navigateByUrl(
+            this.router.navigate([
               this.route.snapshot.queryParamMap.get('returnUrl')
-            );
+            ]);
           }
 
           this.router.navigate(['home']);

@@ -1,5 +1,5 @@
 import { FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AdminDashboardRoutingModule } from './admin-dashboard-routing.module';
@@ -9,6 +9,7 @@ import { LogComponent } from './log/log.component';
 
 @NgModule({
   declarations: [AdminComponent, AppSettingsComponent, LogComponent],
-  imports: [CommonModule, FormsModule, AdminDashboardRoutingModule]
+  imports: [CommonModule, FormsModule, AdminDashboardRoutingModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AdminDashboardModule {}

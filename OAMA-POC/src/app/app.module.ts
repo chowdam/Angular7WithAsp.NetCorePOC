@@ -1,19 +1,26 @@
 import { LoggingService } from './_logging/logging.service';
 import { AlertifyService } from './_logging/alertify.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  NgModule,
+  ErrorHandler,
+  CUSTOM_ELEMENTS_SCHEMA,
+  NO_ERRORS_SCHEMA
+} from '@angular/core';
+
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { TableModule } from 'primeng/table';
+import { AgGridModule } from 'ag-grid-angular';
+
 import { HomeComponent } from './core/home/home.component';
 import { NavComponent } from './core/nav/nav.component';
-
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { AboutComponent } from './core/about/about.component';
 import { ContactComponent } from './core/contact/contact.component';
@@ -22,24 +29,25 @@ import { LoginComponent } from './core/login/login.component';
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 
 import { ErrorsModule } from './errors/errors.module';
-import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
-import { InventoryDashboardModule } from './inventory-dashboard/inventory-dashboard.module';
-import { NotificationsDashboardModule } from './notifications-dashboard/notifications-dashboard.module';
 import { LogPublisherService } from './_logging/log-publisher.service';
-import { TableModule } from 'primeng/table';
 
-import { AgGridModule } from 'ag-grid-angular';
-
+import { SpinnerComponent } from './_shared/spinner/spinner.component';
+import { InventoryDashboardModule } from './inventory-dashboard/inventory-dashboard.module';
+import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
+import { NotificationsDashboardModule } from './notifications-dashboard/notifications-dashboard.module';
+import { AssetFormComponent } from './core/asset-form/asset-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PageNotFoundComponent,
     HomeComponent,
     NavComponent,
     LoginComponent,
     AboutComponent,
-    ContactComponent
+    ContactComponent,
+    SpinnerComponent,
+    PageNotFoundComponent,
+    AssetFormComponent
   ],
   // tslint:disable-next-line:max-line-length
   imports: [
@@ -58,6 +66,7 @@ import { AgGridModule } from 'ag-grid-angular';
     AppRoutingModule
   ],
   providers: [AlertifyService, LoggingService, LogPublisherService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}

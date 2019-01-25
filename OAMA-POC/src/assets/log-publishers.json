@@ -10,7 +10,7 @@
     },
     {
         "loggerName": "webapi",
-        "loggerLocation": "http://localhost:5000/api/log/client",
+        "loggerLocation": "/api/log/client",
         "isActive": true
     }
 ]

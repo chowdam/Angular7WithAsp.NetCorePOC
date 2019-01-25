@@ -85,20 +85,20 @@ namespace PocOAMA.Controllers
 
         // GET: api/Inventory/5
         [HttpGet("{id}", Name = "Get")]
-        public Inventory Get(string SerialNumber)
+        public AssetVM Get(string SerialNumber)
         {
             int[] asstStatuses = new int[] { 100, 101, 101, 103, 104, 105, 106, 107, 108, 109, 110, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210 };
             string[] vehStatus = new string[] { "active", "inactive", "spare", "training" };
             string[] serilas = new string[] { Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString() };
-            GenFu.GenFu.Configure<Inventory>()
+            GenFu.GenFu.Configure<AssetVM>()
                 .Fill(p => p.VehicleAge).WithinRange(1, 20)
                  .Fill(p => p.SBCCode).AsMusicGenreName()
-                 .Fill(p => p.Notes).AsLoremIpsumSentences()
-                 .Fill(p => p.VehicleAssociationStatus).WithRandom(vehStatus)
+                 .Fill(p => p.AssetNotes).AsLoremIpsumSentences()
+                 .Fill(p => p.AssociationStatus).WithRandom(vehStatus)
                 .Fill(p => p.AssetStatus).WithRandom(asstStatuses)
-                .Fill(c => c.SerialNumber, c => $"a1b2c3");
+                .Fill(c => c.SerialNumber, c => $"346889129-4");
 
-            var inventory = A.ListOf<Inventory>(1);
+            var inventory = A.ListOf<AssetVM>(1);
             return inventory[0];
         }
 

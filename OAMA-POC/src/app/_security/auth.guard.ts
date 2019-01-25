@@ -19,8 +19,12 @@ export class AuthGuard implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
     const claimType: string = next.data['claimType'];
 
+    // console.log(
+    //   'Auth guard: isAuthenticated ' +
+    //     this.authService.securityObject.isAuthenticated
+    // );
     if (this.authService.securityObject.isAuthenticated) {
-      this.router.navigate(['home']);
+      // this.router.navigate(['home']);
       return true;
     } else {
       this.router.navigate(['login'], {

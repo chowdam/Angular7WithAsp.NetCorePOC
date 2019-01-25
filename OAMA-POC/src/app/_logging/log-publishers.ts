@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LogEntry } from './log-entry';
 import { throwError, Observable, of } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 export abstract class LogPublishers {
   location: string;
@@ -67,7 +68,7 @@ export class LogLocalStorage extends LogPublishers {
 export class LogWebApi extends LogPublishers {
   constructor(private http: HttpClient) {
     super();
-    this.location = 'http://localhost:5000/api/log/client';
+    this.location = environment.baseUrl + '/api/log/client';
   }
 
   errors: string[] = [];
@@ -76,13 +77,12 @@ export class LogWebApi extends LogPublishers {
       'Content-Type': 'application/json; charset=utf-8'
     });
 
-    return this.http
-      .post<any>(this.location, record, { headers: headers })
-      .pipe(
-        retry(3),
-        tap(resp => console.log('published log to web api ' + resp)),
-        catchError(this.handleError)
-      );
+    const url = environment.baseUrl + this.location;
+    return this.http.post<any>(url, record, { headers: headers }).pipe(
+      retry(3),
+      tap(resp => console.log('published log to web api ' + resp)),
+      catchError(this.handleError)
+    );
   }
 
   clear(): Observable<boolean> {

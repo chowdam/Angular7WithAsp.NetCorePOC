@@ -8,9 +8,11 @@ import {
   HttpEvent,
   HttpEventType
 } from '@angular/common/http';
-import { Inventory } from './inventory';
+import { Inventory, AssetVM } from './inventory';
 import { tap, catchError } from 'rxjs/operators';
 import { Asset } from './asset';
+import { environment } from 'src/environments/environment';
+import { DateFloatingFilterComp } from 'ag-grid-community/dist/lib/filter/floatingFilter';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,7 @@ import { Asset } from './asset';
 export class InventoryService {
   constructor(private http: HttpClient) {}
 
-  private inventoryUrl = 'http://localhost:5000/api/inventory';
+  private inventoryUrl = environment.baseUrl + '/api/inventory';
 
   getInventory(): Observable<Inventory[]> {
     return this.http.get<Inventory[]>(this.inventoryUrl).pipe(
@@ -53,12 +55,12 @@ export class InventoryService {
       );
   }
 
-  getAsset(id: number): Observable<Asset> {
-    if (id === 0) {
+  getAsset(id: string): Observable<AssetVM> {
+    if (id === '') {
       return of(this.initializeAsset());
     }
     const url = `${this.inventoryUrl}/${id}`;
-    return this.http.get<Asset>(url).pipe(
+    return this.http.get<AssetVM>(url).pipe(
       tap(data => console.log('getAsset: ' + JSON.stringify(data))),
       catchError(this.handleError)
     );
@@ -104,41 +106,36 @@ export class InventoryService {
     return throwError(errorMessage);
   }
 
-  private initializeAsset(): Asset {
+  private initializeAsset(): AssetVM {
     // Return an initialized object
     return {
-      // asset realted
-      SerialNumber: '',
-      AssetStatus: '',
-      StoragePossession: '',
+      serialNumber: '',
+      ttnmAccount: '',
+      ttnmGroup: '',
+      softwareType: '',
+      assetAge: 0,
+      assetUseTime: 0,
+      acquiredDate: new Date(),
+      retiredDate: new Date(),
+      assetNotes: '',
 
-      // Vehicle Association related
-      VehicleAssociationStatus: '',
-      InstallationDate: '',
-      AssetUseAge: 0,
-      DeinstallationDate: '',
-      ReinstallationDate: '',
-      BillingStartDate: '',
-      BillingEndDate: '',
+      assetStatus: '',
+      assetPossession: '',
+      associationStatus: '',
+      associationStartDate: new Date(),
+      associationEndDate: new Date(),
 
-      // vehicle related properties
-      VIN: '',
-      TTNMAccount: '',
-      TTNMGroup: '',
-      VehicleStatus: '',
-      BusNumber: '',
-      LicensePlate: '',
-      VehicleType: '',
-      ModelYear: '',
-      VehicleAge: '',
-      SBCName: '',
-      SBCCode: '',
-      VehicleOwner: '',
-      Garage: '',
-      SeasonalSBCName: '',
-
-      // asset related
-      Notes: ''
+      vin: '',
+      modelYear: '',
+      vehicleAge: '',
+      vehicleType: '',
+      vehicleStatus: '',
+      busNumber: '',
+      licensePlate: '',
+      garage: '',
+      sbcCode: '',
+      sbcName: '',
+      vehicleOwner: ''
     };
   }
 }

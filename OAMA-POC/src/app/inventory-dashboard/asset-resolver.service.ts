@@ -10,25 +10,26 @@ import { map, catchError } from 'rxjs/operators';
 
 import { InventoryService } from './inventory.service';
 import { AssetResolved } from './asset';
+import { AssetVMResolved } from './inventory';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AssetResolverService implements Resolve<AssetResolved> {
+export class AssetResolverService implements Resolve<AssetVMResolved> {
   constructor(private inventoryService: InventoryService) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<AssetResolved> {
+  ): Observable<AssetVMResolved> {
     const id = route.paramMap.get('id');
-    if (isNaN(+id)) {
+    if (id === '') {
       const message = `Asset id was not a number: ${id}`;
       console.error(message);
       return of({ asset: null, error: message });
     }
 
-    return this.inventoryService.getAsset(+id).pipe(
+    return this.inventoryService.getAsset(id).pipe(
       map(asset => ({ asset: asset })),
       catchError(error => {
         const message = `Retrieval error: ${error}`;

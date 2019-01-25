@@ -1,18 +1,18 @@
-import { InventoryService } from './../inventory.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Inventory } from './../inventory';
-import { ActivatedRoute } from '@angular/router';
-import { SelectItem, LazyLoadEvent } from 'primeng/api';
-import { DataTableModule } from 'primeng/datatable';
+import { InventoryService } from "./../inventory.service";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { Inventory } from "./../inventory";
+import { ActivatedRoute, Router } from "@angular/router";
+import { SelectItem, LazyLoadEvent } from "primeng/api";
 
 @Component({
-  selector: 'app-inventory-primeng',
+  selector: "app-inventory-primeng",
   templateUrl: './inventory-primeng.component.html',
   styleUrls: ['./inventory-primeng.component.css']
 })
 export class InventoryPrimengComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private inventoryService: InventoryService
   ) {}
   inventory: Inventory[] = [];
@@ -105,6 +105,21 @@ export class InventoryPrimengComponent implements OnInit {
     this.loading = true;
   }
 
+  editAsset(url, rowData) {
+    console.log('routing to edit page..');
+    console.log(JSON.stringify(rowData));
+
+    // this.router.navigate(['/asset/:id']);
+
+    const myurl = url + '/' + rowData.serialNumber;
+    this.router.navigateByUrl(myurl).then(e => {
+      if (e) {
+        console.log('Navigation is successful!');
+      } else {
+        console.log('Navigation has failed!');
+      }
+    });
+  }
   setCurrentPage(n: number) {
     this.dataTable.reset();
     const paging = {
