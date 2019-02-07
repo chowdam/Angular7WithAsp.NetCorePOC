@@ -49,3 +49,4 @@ D:\Lakshmi\OPT\OAMAProject\POC\PocOAMA\PocOAMA\obj\Release\netcoreapp2.1\PocOAMA
 D:\Lakshmi\OPT\OAMAProject\POC\PocOAMA\PocOAMA\obj\Release\netcoreapp2.1\PocOAMA.dll
 D:\Lakshmi\OPT\OAMAProject\POC\PocOAMA\PocOAMA\obj\Release\netcoreapp2.1\PocOAMA.pdb
 D:\Lakshmi\OPT\OAMAProject\POC\PocOAMA\PocOAMA\obj\Release\netcoreapp2.1\PocOAMA.csprojAssemblyReference.cache
+D:\Lakshmi\OPT\OAMAProject\POC\PocOAMA\PocOAMA\obj\Release\netcoreapp2.1\UserSecretsAssemblyInfo.cs

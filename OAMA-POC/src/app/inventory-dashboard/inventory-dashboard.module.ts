@@ -53,7 +53,6 @@ import { LogPublisherService } from "../_logging/log-publisher.service";
     RadioButtonModule,
     KeyFilterModule,
     CalendarModule,
-
     InventoryDashboardRoutingModule
   ],
   providers: [AlertifyService, LoggingService, LogPublisherService],

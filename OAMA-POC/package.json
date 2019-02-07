@@ -7,7 +7,7 @@
         "buildstats": "ng build --stats-json",
         "buildsourcemaps": "ng build --source-map ",
         "buildlocal": "ng build --source-map --stats-json",
-        "start": "ng serve --port=3000 --proxy-config proxy.conf.json",
+        "start": "ng serve --port=3001 --proxy-config proxy.conf.json",
         "build": "ng build --prod --aot --source-map --stats-json",
         "test": "ng test",
         "lint": "ng lint",

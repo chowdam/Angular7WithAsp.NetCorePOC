@@ -85,4 +85,24 @@ namespace PocOAMA.Models
     //claimType = '';
     //claimValue = '';
 
+
+    public class AuthUser
+    {
+        public string FullName { get; set; }
+        public string Token { get; set; }
+        public bool IsAuthenticated { get; set; }
+
+        public string UserRole { get; set; }
+
+        public string AccessLevel { get; set; }
+
+        public string ExtraInfo { get; set; }
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
+
+    }
+
 }

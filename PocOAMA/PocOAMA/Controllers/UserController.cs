@@ -150,6 +150,81 @@ namespace PocOAMA.Controllers
             //});
         }
 
+        [HttpPost("signin")]
+        public async Task<IActionResult> signin(UserForLoginDto userForLoginDto)
+        {
+            var userFromRepo = await _repo.Login(userForLoginDto.Username, userForLoginDto.Password);
+
+            if (userFromRepo == null)
+                return Unauthorized();
+
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, userFromRepo.Id.ToString()),
+                new Claim(ClaimTypes.Name, userFromRepo.Username),
+                new Claim(ClaimTypes.Role, userFromRepo.UserRole),
+                new Claim("AccessLevel", userFromRepo.AccessLevel)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8
+                .GetBytes(_config.GetSection("AppSettings:Token").Value));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var now = DateTime.UtcNow;
+            // var requestAt = DateTime.Now;
+            // var expiresIn = requestAt.Add(TimeSpan.FromMinutes(30));
+
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                NotBefore = now,
+                Expires = now.AddHours(1),
+                SigningCredentials = creds
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+
+            AuthUser userToReturn = new AuthUser
+            {
+                FullName = userFromRepo.Username,
+                Token = tokenHandler.WriteToken(token),
+                IsAuthenticated = true,
+                UserRole = userFromRepo.UserRole,
+                AccessLevel = userFromRepo.AccessLevel
+
+            };
+
+            userToReturn.ExtraInfo = "";
+            //if (userFromRepo.UserRole == "admin" || userFromRepo.UserRole == "gpsops")
+            //{
+            //    userToReturn.UserRole = "admin";
+            //    userToReturn.AccessLevel = "write";
+            //}
+            //else
+            //{
+            //    userToReturn.UserRole = "other";
+            //    userToReturn.AccessLevel = "read";
+            //}
+
+            return Ok(userToReturn);
+
+            //admin/admin
+            //gpsops/gpsops
+            //vendor/test
+            //sbc/test
+            //other/test
+
+            //return Ok(new
+            //{
+            //    token = tokenHandler.WriteToken(token)
+            //});
+        }
+
         [HttpPost("remove")]
         public async Task<IActionResult> Remove(string username)
         {

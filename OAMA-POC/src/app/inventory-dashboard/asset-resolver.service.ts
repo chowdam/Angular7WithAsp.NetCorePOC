@@ -1,19 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   Resolve,
   ActivatedRouteSnapshot,
   RouterStateSnapshot
-} from '@angular/router';
+} from "@angular/router";
 
-import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable, of } from "rxjs";
+import { map, catchError } from "rxjs/operators";
 
-import { InventoryService } from './inventory.service';
-import { AssetResolved } from './asset';
-import { AssetVMResolved } from './inventory';
+import { InventoryService } from "./inventory.service";
+import { AssetResolved } from "./asset";
+import { AssetVMResolved } from "./AssetVM";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class AssetResolverService implements Resolve<AssetVMResolved> {
   constructor(private inventoryService: InventoryService) {}
@@ -22,19 +22,19 @@ export class AssetResolverService implements Resolve<AssetVMResolved> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<AssetVMResolved> {
-    const id = route.paramMap.get('id');
-    if (id === '') {
+    const id = route.paramMap.get("id");
+    if (id === "") {
       const message = `Asset id was not a number: ${id}`;
       console.error(message);
-      return of({ asset: null, error: message });
+      return of({ assetmodel: null, error: message });
     }
 
     return this.inventoryService.getAsset(id).pipe(
-      map(asset => ({ asset: asset })),
+      map(asset => ({ assetmodel: asset })),
       catchError(error => {
         const message = `Retrieval error: ${error}`;
         console.error(message);
-        return of({ asset: null, error: message });
+        return of({ assetmodel: null, error: message });
       })
     );
   }

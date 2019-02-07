@@ -31,7 +31,7 @@ const routes: Routes = [
     path: "asset/:id",
     component: AssetDetailComponent,
     canActivate: [AuthGuard],
-    resolve: { asset: AssetResolverService }
+    resolve: { assetmodel: AssetResolverService }
   },
   { path: "", redirectTo: "/inventory", pathMatch: "full" }
 ];

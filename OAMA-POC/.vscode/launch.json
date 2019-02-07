@@ -7,7 +7,7 @@
       "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome against angular",
-      "url": "http://localhost:3000",
+      "url": "http://localhost:3001",
       "sourceMaps": true,
       "webRoot": "${workspaceFolder}"
     },

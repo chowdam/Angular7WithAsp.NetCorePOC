@@ -38,41 +38,6 @@ export interface InventoryResolved {
   error?: any;
 }
 
-export class AssetVM {
-  serialNumber: string;
-  ttnmAccount: string;
-  ttnmGroup: string;
-  softwareType: string;
-  assetAge: number;
-  assetUseTime: number;
-  acquiredDate: Date;
-  retiredDate: Date;
-  assetNotes: string;
-
-  assetStatus: string;
-  assetPossession: string;
-  associationStatus: string;
-  associationStartDate: Date;
-  associationEndDate: Date;
-
-  vin: string;
-  modelYear: string;
-  vehicleAge: string;
-  vehicleType: string;
-  vehicleStatus: string;
-  busNumber: string;
-  licensePlate: string;
-  garage: string;
-  sbcCode: string;
-  sbcName: string;
-  vehicleOwner: string;
-}
-
-export interface AssetVMResolved {
-  asset: AssetVM;
-  error?: any;
-}
-
 export class Vehicle {
   vin: string;
   modelYear: string;

@@ -1,6 +1,17 @@
+import {
+  AssetVMResolved,
+  ttnmAccountData,
+  ttnmGroupData,
+  assetPossesionData,
+  vehicleAssociationStatusData,
+  softwareTypeData,
+  assetStatusData,
+  currentAssetStatusCodes,
+  retiredAssetStatusCodes
+} from "./../AssetVM";
 import { Subscription } from "rxjs";
 
-import { Inventory, AssetVM } from "./../inventory";
+import { Inventory } from "./../inventory";
 import { Component, OnInit, ViewChild, AfterViewInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 
@@ -16,6 +27,8 @@ import { RadioButtonModule } from "primeng/radiobutton";
 import { DropdownModule } from "primeng/dropdown";
 import { KeyFilterModule } from "primeng/keyfilter";
 import { CalendarModule } from "primeng/calendar";
+import { AssetVM } from "../AssetVM";
+import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-asset-detail",
@@ -26,81 +39,28 @@ export class AssetDetailComponent implements OnInit, AfterViewInit {
   serialNumber = "";
   assetEditForm: FormGroup;
   pageTitle = "Edit Asset";
-  productForm: FormGroup;
+  assetData: AssetVM = new AssetVM();
 
-  assetData: AssetVM;
-
-  ttnmAccountData = [
-    { label: "Navman1 Account", value: "Navman1 Account" },
-    { label: "Navman2 Account", value: "Navman2 Account" }
-  ];
-  selectedTtnmAccount = "";
-  ttnmGroupData = [
-    { label: "Navman1 Group", value: "Navman1 Group" },
-    { label: "Navman2 Group", value: "Navman2 Group" }
-  ];
-  selectedTtnmGroup = "";
-  assetPossesionData = [
-    { label: "ASSET VENDOR", value: "ASSET VENDOR" },
-    { label: "OPT", value: "OPT" },
-    { label: "SBC", value: "SBC" },
-    { label: "TRAINING", value: "TRAINING" },
-    { label: "UNKNOWN", value: "UNKNOWN" }
-  ];
-
-  selectedAssetPossesion = "";
-
-  vehicleAssociationStatusData = [
-    { label: "Associated", value: "Associated" },
-    { label: "Unassociated", value: "Unassociated" },
-    { label: "Disassociated", value: "Disassociated" }
-  ];
-
-  selectedVehicleAssociationStatus = "";
-
-  softwareTypeData = [
-    { label: "GE", value: "GE" },
-    { label: "SE", value: "SE" },
-    { label: "Pre-K/EI", value: "Pre-K/EI" }
-  ];
-
-  selectedSoftwareType = "";
+  ttnmAccountValues = ttnmAccountData;
+  ttnmGroupValues = ttnmGroupData;
+  assetPossesionValues = assetPossesionData;
+  vehicleAssociationStatusValues = vehicleAssociationStatusData;
+  softwareTypeValues = softwareTypeData;
+  assetStatusValues = assetStatusData;
+  currentAssetStatusCodesValues = currentAssetStatusCodes;
+  retiredAssetStatusCodesValues = retiredAssetStatusCodes;
 
   currentDate = new Date();
   minDate = new Date("June 01 2015");
   minDateValue = this.minDate.getDate();
   maxDateValue = this.currentDate.getDate();
+  selDate: Date;
+  aqrdDate;
+  rtrdDate;
+  assocStartDate;
+  assocEndDate;
 
-  assetStatusData = ["Current", "Retired"];
-  selectedAssetStatus = 0;
-
-  currentAssetStatusCodes = [
-    100,
-    113,
-    114,
-    116,
-    117,
-    201,
-    202,
-    101,
-    120,
-    121,
-    122
-  ];
-  retiredAssetStatusCodes = [200, 115, 210, 211, 220, 221, 212, 213, 222, 299];
-  associatedAssetStatusCodes = [100, 113, 114, 116, 117, 201, 202];
-  disAssociatedAssetStatusCodes = [
-    200,
-    115,
-    210,
-    211,
-    220,
-    221,
-    212,
-    213,
-    222,
-    299
-  ];
+  // date: NgbDateStruct = { year: 2015, month: 6, day: 1 };
 
   constructor(
     private route: ActivatedRoute,
@@ -112,21 +72,16 @@ export class AssetDetailComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     const param = this.route.snapshot.paramMap.get("id");
-    console.log("url param:" + param);
-    if (param) {
-      console.log("asset details for serialNumber: " + param);
-      this.serialNumber = param;
-    }
-    // load data from service
-    this.assetData = <AssetVM>this.route.snapshot.data["asset"];
-  }
-  ngAfterViewInit() {
-    console.log(
-      "Asset data after view init: " + JSON.stringify(this.assetData)
-    );
+    const data = <AssetVMResolved>this.route.snapshot.data["assetmodel"];
+    this.assetData = <AssetVM>data.assetmodel;
 
-    this.displayProduct(this.assetData);
+    console.log("asset data from resolver: ");
+    console.log(JSON.stringify(this.assetData));
+
+    this.displayProduct();
   }
+
+  ngAfterViewInit() {}
 
   InitializeAssetEditForm(): any {
     this.assetEditForm = this.fb.group({
@@ -138,7 +93,7 @@ export class AssetDetailComponent implements OnInit, AfterViewInit {
       softwareType: [null, [Validators.required]],
       assetAge: [0, [Validators.required]],
       assetUseTime: [0, [Validators.required]],
-      acquiredDate: [new Date(), [Validators.required]],
+      acquiredDate: [null, [Validators.required]],
       retiredDate: [new Date(), [Validators.required]],
       assetNotes: ["Notes...", [Validators.required]],
       associationStatus: ["n/a", [Validators.required]],
@@ -159,86 +114,179 @@ export class AssetDetailComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // createFormGroupWithBuilderAndModel(formBuilder: FormBuilder, asset: AssetVM) {
-  //   return formBuilder.group({
-  //     assetData: formBuilder.group(asset)
-  //   });
-  // }
+  displayProduct(): void {
+    // if (this.assetEditForm) {
+    //   this.assetEditForm.reset();
+    // }
 
-  displayProduct(assetVM: AssetVM): void {
-    if (this.assetEditForm) {
-      this.assetEditForm.reset();
-    }
-
-    if (assetVM.serialNumber === "") {
+    if (this.assetData.serialNumber === "") {
       this.pageTitle = "Add Product";
     } else {
-      this.pageTitle = `Edit Product: ${this.asset.serialNumber}`;
+      this.pageTitle = `Edit Product: ${this.assetData.serialNumber + ""}`;
     }
 
-    console.log("displayProduct asset" + JSON.stringify(assetVM));
+    console.log("displayProduct asset" + JSON.stringify(this.assetData));
+
     // Update the data on the form
     this.assetEditForm.patchValue({
-      serialNumber: assetVM.serialNumber,
-      assetAge: assetVM.assetAge,
-      assetUseTime: assetVM.assetUseTime,
-      acquiredDate: assetVM.acquiredDate,
-      retiredDate: assetVM.retiredDate,
-      assetNotes: assetVM.assetNotes,
-      associationStartDate: assetVM.associationStartDate,
-      associationEndDate: assetVM.associationEndDate,
-      vin: assetVM.vin,
-      modelYear: assetVM.modelYear,
-      vehicleAge: assetVM.vehicleAge,
-      vehicleType: assetVM.vehicleType,
-      vehicleStatus: assetVM.vehicleStatus,
-      busNumber: assetVM.busNumber,
-      licensePlate: assetVM.licensePlate,
-      garage: assetVM.garage,
-      sbcCode: assetVM.sbcCode,
-      sbcName: assetVM.sbcName,
-      vehicleOwner: assetVM.vehicleOwner
+      serialNumber: this.assetData.serialNumber,
+      assetAge: this.assetData.assetAge,
+      assetUseTime: this.assetData.assetUseTime,
+      assetNotes: this.assetData.assetNotes,
+      vin: this.assetData.vin,
+      modelYear: this.assetData.modelYear,
+      vehicleAge: this.assetData.vehicleAge,
+      vehicleType: this.assetData.vehicleType,
+      vehicleStatus: this.assetData.vehicleStatus,
+      busNumber: this.assetData.busNumber,
+      licensePlate: this.assetData.licensePlate,
+      garage: this.assetData.garage,
+      sbcCode: this.assetData.sbcCode,
+      sbcName: this.assetData.sbcName,
+      vehicleOwner: this.assetData.vehicleOwner
     });
 
-    // this.assetEditForm.controls["ttnmAccount"].setValue(
-    //   this.asset.ttnmAccount,
-    //   { onlySelf: true }
-    // );
-    // this.assetEditForm.controls["ttnmGroup"].setValue(this.asset.ttnmGroup, {
-    //   onlySelf: true
-    // });
-    // this.assetEditForm.controls["assetStatus"].setValue(
-    //   this.asset.assetStatus,
-    //   { onlySelf: true }
-    // );
-    // this.assetEditForm.controls["assetPossession"].setValue(
-    //   this.asset.assetPossession,
-    //   { onlySelf: true }
-    // );
-    // this.assetEditForm.controls["softwareType"].setValue(
-    //   this.asset.softwareType,
-    //   { onlySelf: true }
-    // );
-    // this.assetEditForm.controls["associationStatus"].setValue(
-    //   this.asset.associationStatus,
-    //   { onlySelf: true }
-    // );
+    this.assetEditForm.controls["acquiredDate"].setValue(
+      this.formatDate(this.assetData.acquiredDate),
+      {
+        onlySelf: true
+      }
+    );
+    this.assetEditForm.controls["retiredDate"].setValue(
+      this.formatDate(this.assetData.retiredDate),
+      {
+        onlySelf: true
+      }
+    );
+
+    this.assetEditForm.controls["associationStartDate"].setValue(
+      this.formatDate(this.assetData.associationStartDate),
+      {
+        onlySelf: true
+      }
+    );
+    this.assetEditForm.controls["associationEndDate"].setValue(
+      this.formatDate(this.assetData.associationEndDate),
+      {
+        onlySelf: true
+      }
+    );
+
+    this.assetEditForm.controls["ttnmAccount"].setValue(
+      this.assetData.ttnmAccount,
+      { onlySelf: true }
+    );
+    this.assetEditForm.controls["ttnmGroup"].setValue(
+      this.assetData.ttnmGroup,
+      {
+        onlySelf: true
+      }
+    );
+    this.assetEditForm.controls["assetStatus"].setValue(
+      this.assetData.assetStatus,
+      { onlySelf: true }
+    );
+    this.assetEditForm.controls["assetPossession"].setValue(
+      this.assetData.assetPossession,
+      { onlySelf: true }
+    );
+    this.assetEditForm.controls["softwareType"].setValue(
+      this.assetData.softwareType,
+      { onlySelf: true }
+    );
+    this.assetEditForm.controls["associationStatus"].setValue(
+      this.assetData.associationStatus,
+      { onlySelf: true }
+    );
 
     this.assetEditForm.updateValueAndValidity();
   }
 
-  ttnmAccountChnaged(event): void {
-    console.log("ttnmAccountChnaged: ");
-    console.log(event);
+  validateAacquiredDate() {
+    // console.log("Selected Aquired date:" + this.aqrdDate);
 
-    const ttnmAccountControl = this.assetEditForm.get("ttnmAccount");
-    ttnmAccountControl.value = event.value;
-    ttnmAccountControl.updateValueAndValidity();
-
-    console.log("value changed: " + ttnmAccountControl.value);
+    this.assetEditForm.controls["acquiredDate"].setValue(
+      this.formatDate(this.aqrdDate),
+      {
+        onlySelf: true
+      }
+    );
+    this.assetEditForm.controls["acquiredDate"].clearValidators();
+    this.assetEditForm.controls["acquiredDate"].updateValueAndValidity();
   }
+
+  validateRetiredDate() {
+    // console.log("Selected Retired date:" + this.rtrdDate);
+
+    this.assetEditForm.controls["retiredDate"].setValue(
+      this.formatDate(this.rtrdDate),
+      {
+        onlySelf: true
+      }
+    );
+    this.assetEditForm.controls["retiredDate"].clearValidators();
+    this.assetEditForm.controls["retiredDate"].updateValueAndValidity();
+  }
+
+  validatAssociationStartDate() {
+    // console.log("Selected Aquired date:" + this.assocStartDate);
+
+    this.assetEditForm.controls["acquiredDate"].setValue(
+      this.formatDate(this.assocStartDate),
+      {
+        onlySelf: true
+      }
+    );
+    this.assetEditForm.controls["associationStartDate"].clearValidators();
+    this.assetEditForm.controls[
+      "associationStartDate"
+    ].updateValueAndValidity();
+  }
+
+  validatAssociationEndDate() {
+    // console.log("Selected Aquired date:" + this.assocEndDate);
+
+    this.assetEditForm.controls["associationEndDate"].setValue(
+      this.formatDate(this.assocEndDate),
+      {
+        onlySelf: true
+      }
+    );
+    this.assetEditForm.controls["associationEndDate"].clearValidators();
+    this.assetEditForm.controls["associationEndDate"].updateValueAndValidity();
+  }
+
+  formatDate(todate: any) {
+    const dt = new Date(todate);
+    let dd = dt.getDate().toString();
+    let mm = (dt.getMonth() + 1).toString(); // January is 0!
+    const yyyy = dt.getFullYear();
+
+    if (dt.getDate() < 10) {
+      dd = "0" + dd;
+    }
+    if (dt.getMonth() + 1 < 10) {
+      mm = "0" + mm;
+    }
+    const input = mm + "/" + dd + "/" + yyyy;
+    // const parts = input.match(/(\d+)/g);
+    // // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+    // return new Date(parts[0], parts[1] - 1, parts[2]);
+    return input;
+  }
+  // ttnmAccountChnaged(event): void {
+  //   console.log("ttnmAccountChnaged: ");
+  //   console.log(event);
+
+  //   this.assetEditForm.controls["ttnmAccount"].setValue(event.value, {
+  //     onlySelf: true
+  //   });
+  //   this.assetEditForm.controls["ttnmAccount"].clearValidators();
+  //   this.assetEditForm.controls["ttnmAccount"].updateValueAndValidity();
+  // }
+
   saveAsset(): void {
-    console.log(this.assetEditForm);
+    // console.log(this.assetEditForm.value);
     console.log("saved: " + JSON.stringify(this.assetEditForm));
   }
 

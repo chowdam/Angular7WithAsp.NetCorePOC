@@ -1,0 +1,12 @@
+<form class="form-inline" [formGroup]="calForm">
+  <div class="form-group">
+    <div class="input-group">
+      <input class="form-control" placeholder="mm/dd/yyyy"
+             name="dp" formControlName="cal"  ngbDatepicker #d="ngbDatepicker">
+      <button class="input-group-addon" (click)="d.toggle()" type="button">
+        <i class="fa fa-calendar" aria-hidden="true"></i>
+      </button>
+      <button class="input-group-addon" (click)="clear()" type="button" ><i class="fa fa-times" aria-hidden="true"></i></button>
+    </div>
+  </div>
+</form>

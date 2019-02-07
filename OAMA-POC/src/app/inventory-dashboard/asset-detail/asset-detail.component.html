@@ -6,6 +6,7 @@
   <div class="alert alert-warning">
 
        {{assetEditForm.value| json}}
+
   </div>
 
 <div class="container">
@@ -28,15 +29,13 @@
         <label class="col-md-2 col-form-label"
                for="serialNumberId">Serial Number</label>
         <div class="col-md-8">
-        <span class="ui-float-label">
           <input class="form-control"
               size="30" pInputText
                  id="serialNumberId"
                  type="text"
                  formControlName="serialNumber"
                  [ngClass]="{'is-invalid': !assetEditForm.get('serialNumber').valid  && assetEditForm.get('serialNumber').dirty}" />
-          <label for="serialNumberId">Serial Number (Required)</label>
-          </span>
+
           <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('serialNumber').errors?.required">
                 Please enter Serial Number
@@ -52,8 +51,15 @@
         <label class="col-md-2 col-form-label"
                for="ttnmAccountId">TTNM Account</label>
         <div class="col-md-8">
-        <p-dropdown [options]="ttnmAccountData" [(ngModel)]="ttnmAccount" placeholder="--Select--" [showClear]="true"
-        [ngModelOptions]="{standalone: true}" (onChange)="ttnmAccountChnaged($event)"></p-dropdown>
+
+          <select [formControl]="assetEditForm.controls['ttnmAccount']">
+          <option  [value]=""> Select </option>
+            <option *ngFor="let ta of ttnmAccountValues" [value]="ta.code">
+                          {{ta.description}}
+                      </option>
+          </select>
+
+
           <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('ttnmAccount').errors?.required">
                 Please select ttnmAccount
@@ -70,7 +76,14 @@
         <label class="col-md-2 col-form-label"
                for="ttnmGroupId">TTNM Group</label>
         <div class="col-md-8">
-        <p-dropdown [options]="ttnmGroupData" [(ngModel)]="selectedTtnmGroup" placeholder="--Select--" [showClear]="true" [ngModelOptions]="{standalone: true}"></p-dropdown>
+
+          <select [formControl]="assetEditForm.controls['ttnmGroup']">
+          <option  [value]=""> Select </option>
+            <option *ngFor="let tg of ttnmGroupValues" [value]="tg.code">
+                          {{tg.description}}
+                      </option>
+          </select>
+
           <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('ttnmGroup').errors?.required">
                 Please select ttnmGroup
@@ -82,44 +95,17 @@
 
 
 
-<!--assetStatus-->
-
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="assetStatusId">Asset Status</label>
-        <div class="col-md-8">
-        <p-dropdown [options]="currentAssetStatusCodes" [(ngModel)]="selectedAssetStatus" placeholder="--Select--" [showClear]="true" [ngModelOptions]="{standalone: true}"></p-dropdown>
-
-          <span class="invalid-feedback">
-              <span *ngIf="assetEditForm.get('assetStatus').errors?.required">
-                Please select assetStatus
-              </span>
-          </span>
-        </div>
-      </div>
-
-
-<!--assetPossession-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="assetPossessionId">Asset Possession</label>
-        <div class="col-md-8">
-          <p-dropdown [options]="assetPossesionData" [(ngModel)]="selectedAssetPossesion" placeholder="--Select--" [showClear]="true" [ngModelOptions]="{standalone: true}"></p-dropdown>
-          <span class="invalid-feedback">
-              <span *ngIf="assetEditForm.get('assetPossession').errors?.required">
-                Please select assetPossession
-              </span>
-          </span>
-        </div>
-      </div>
-
-
 <!--softwareType-->
 <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label"
                for="softwareTypeId">Software Type</label>
         <div class="col-md-8">
-          <p-dropdown [options]="softwareTypeData" [(ngModel)]="selectedSoftwareType" placeholder="--Select--" [showClear]="true" [ngModelOptions]="{standalone: true}"></p-dropdown>
+          <select [formControl]="assetEditForm.controls['softwareType']">
+              <option  [value]=""> Select </option>
+              <option *ngFor="let st of softwareTypeValues" [value]="st.code">
+                          {{st.description}}
+                      </option>
+          </select>
           <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('softwareType').errors?.required">
                 Please select assetStatus
@@ -170,15 +156,16 @@
         </div>
       </div>
 
+
+
 <!--acquiredDate-->
 <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label"
                for="acquiredDateId">Acquired Date</label>
         <div class="col-md-8">
-          <p-calendar formControlName="acquiredDate" dateFormat="dd.mm.yy"
-                      [readonlyInput]="true"
-                      showButtonBar="true"
-                      [showIcon]="true" ></p-calendar>
+
+           <p-calendar  formControlName="acquiredDate" [(ngModel)]="aqrdDate" [showIcon]="true" (onSelect)="validateAacquiredDate()"></p-calendar>
+
           <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('acquiredDate').errors?.required">
                 Please enter acquiredDate
@@ -193,12 +180,9 @@
         <label class="col-md-2 col-form-label"
                for="retiredDateId">Retired Date</label>
         <div class="col-md-8">
-          <input class="form-control"
-                 id="retiredDateId"
-                 type="text"
-                 placeholder="Retired Date (required)"
-                 formControlName="retiredDate"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('retiredDate').valid && assetEditForm.get('retiredDate').dirty}" />
+         <p-calendar  formControlName="retiredDate" [(ngModel)]="rtrdDate" [showIcon]="true" (onSelect)="validateRetiredDate()"></p-calendar>
+
+
           <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('retiredDate').errors?.required">
                 Please enter retiredDate
@@ -214,7 +198,7 @@
         <div class="col-md-8">
           <input class="form-control"
                  id="assetNotesId"
-                 type="text"
+                 type="textarea"
                  placeholder="Asset Notes"
                  formControlName="assetNotes"
                  [ngClass]="{'is-invalid': !assetEditForm.get('assetNotes').valid && assetEditForm.get('assetNotes').dirty }" />
@@ -231,6 +215,39 @@
 <hr>
 <br>
 <!--Vehicle Association Section-->
+
+
+
+<!--assetStatus-->
+
+<div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+               for="assetStatusId">Asset Status</label>
+        <div class="col-md-8">
+        <p-dropdown [options]="currentAssetStatusCodes" [(ngModel)]="selectedAssetStatus" placeholder="--Select--" [showClear]="true" [ngModelOptions]="{standalone: true}"></p-dropdown>
+
+          <span class="invalid-feedback">
+              <span *ngIf="assetEditForm.get('assetStatus').errors?.required">
+                Please select assetStatus
+              </span>
+          </span>
+        </div>
+      </div>
+
+
+<!--assetPossession-->
+<div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label"
+               for="assetPossessionId">Asset Possession</label>
+        <div class="col-md-8">
+          <p-dropdown [options]="assetPossesionData" [(ngModel)]="selectedAssetPossesion" placeholder="--Select--" [showClear]="true" [ngModelOptions]="{standalone: true}"></p-dropdown>
+          <span class="invalid-feedback">
+              <span *ngIf="assetEditForm.get('assetPossession').errors?.required">
+                Please select assetPossession
+              </span>
+          </span>
+        </div>
+      </div>
 
 
 <!--associationStatus-->
@@ -257,12 +274,7 @@
         <label class="col-md-2 col-form-label"
                for="associationStartDateId">Association Start Date</label>
         <div class="col-md-8">
-          <input class="form-control"
-                 id="associationStartDateId"
-                 type="text"
-                 placeholder="Association Start Date (required)"
-                 formControlName="associationStartDate"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('associationStartDate').valid && assetEditForm.get('associationStartDate').dirty}" />
+           <p-calendar  formControlName="associationStartDate" [(ngModel)]="assocStartDate" [showIcon]="true" (onSelect)="validatAssociationStartDate()"></p-calendar>
           <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('associationStartDate').errors?.required">
                 Please enter associationStartDate
@@ -277,12 +289,7 @@
         <label class="col-md-2 col-form-label"
                for="associationEndDateId">Association End Date</label>
         <div class="col-md-8">
-          <input class="form-control"
-                 id="associationEndDateId"
-                 type="text"
-                 placeholder="Association End Date (required)"
-                 formControlName="associationEndDate"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('associationEndDate').valid && assetEditForm.get('associationEndDate').dirty }" />
+          <p-calendar  formControlName="associationEndDate" [(ngModel)]="assocEndDate" [showIcon]="true" (onSelect)="validatAssociationEndDate()"></p-calendar>
           <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('associationEndDate').errors?.required">
                 Please enter associationEndDate

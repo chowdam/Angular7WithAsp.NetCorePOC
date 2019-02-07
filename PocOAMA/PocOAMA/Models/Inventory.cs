@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -136,27 +137,53 @@ namespace PocOAMA.Models
     }
     public class Vehicle
     {
-        /// vehicle related properties
 
-        public string VIN { get; set; }
-        public string LicensePlate { get; set; }
-        public string BusNumber { get; set; }
+
+        /// vehicle related properties
+        //vin: string;
+        //  modelYear: string;
+        //  vehicleAge: string;
+        //  vehicleType: string;
+        //  vehicleStatus: string;
+        //  busNumber: string;
+        //  licensePlate: string;
+        //  garage: string;
+        //  vendorCode: string;
+        //  vendorName: string;
+        //  parentVendorCode: string;
+        //  parentVendorName: string;
+        //  vehicleOwner: string;
+        public string Vin { get; set; }
         public string ModelYear { get; set; }
+        public string VehicleAge { get; set; }
         public string VehicleType { get; set; }
+
+        public string VehicleStatus { get; set; }
+
+
+
+        public string BusNumber { get; set; }
+
+        public string LicensePlate { get; set; }
 
         public string Garage { get; set; }
 
 
 
-        public string VehicleStatus { get; set; }
+        public string VendorCode { get; set; }
 
-        public string VehicleAge { get; set; }
+        public string VendorName { get; set; }
+        public string ParentVendorCode { get; set; }
+
+        public string ParentVendorName { get; set; }
 
 
 
 
 
-        //public string VehicleOwner { get; set; }
+
+        public string VehicleOwner { get; set; }
+
         //public string TTNMAccount { get; set; }
 
         //public string TTNMGroup { get; set; }
@@ -172,10 +199,13 @@ namespace PocOAMA.Models
 
     public class AssetVM
     {
+        public string AssetType { get; set; }
         public string SerialNumber { get; set; }
-        public string TtnmAccount { get; set; }
+        public string TtnmAccountName { get; set; }
 
-        public string TtnmGroup { get; set; }
+        public string TtnmAccountGroup { get; set; }
+
+
 
         public string SoftwareType { get; set; }
         public int AssetAge { get; set; }
@@ -220,7 +250,7 @@ namespace PocOAMA.Models
         public int VehicleAge { get; set; }
         public string VehicleType { get; set; }
 
-        public string VehicleStatus { get; set; }
+
 
         public string BusNumber { get; set; }
 
@@ -229,14 +259,84 @@ namespace PocOAMA.Models
         public string Garage { get; set; }
 
 
-
-        public string SBCName { get; set; }
-
-        public string SBCCode { get; set; }
-
+        public string VehicleStatus { get; set; }
         public string VehicleOwner { get; set; }
+        public string vendorCode { get; set; }
+
+        public string vendorName { get; set; }
+
+        public string parentVendorCode { get; set; }
+
+        public string parentVendorName { get; set; }
 
 
+
+
+    }
+
+
+    public class AssetInventoryClientModel
+    {
+        [Required]
+        public string AssetTypeCode { get; set; }
+        [Required]
+        public string AssetTypeValue { get; set; }
+        [Required]
+        public string SerialNumber { get; set; }
+        [Required]
+        public string TtnmAccount { get; set; }
+
+        public string TtnmGroup { get; set; }
+        [Required]
+        public string SoftwareType { get; set; }
+        [Required]
+        public int AssetAge { get; set; }
+        [Required]
+        public int AssetUseTime { get; set; }
+        [Required]
+        public DateTime AcquiredDate { get; set; }
+
+        public DateTime? RetiredDate { get; set; }
+        [Required]
+        public string AssetStatusCode { get; set; }
+        [Required]
+        public string AssetStatusValue { get; set; }
+        [Required]
+        public string AssetPossessionCode { get; set; }
+        [Required]
+        public string AssetPossessionValue { get; set; }
+        [Required]
+        public string AssociationStatus { get; set; }
+        public DateTime? AssociationStartDate { get; set; }
+        public DateTime? AssociationEndDate { get; set; }
+
+        public string AssetNotes { get; set; }
+
+        public string vin { get; set; }
+
+        public string ModelYear { get; set; }
+
+        public string VehicleAge { get; set; }
+
+        public string VehicleType { get; set; }
+
+        public string VehicleStatus { get; set; }
+
+        public string BusNumber { get; set; }
+
+        public string LicensePlate { get; set; }
+
+        public string Garage { get; set; }
+
+        public string VendorCode { get; set; }
+
+        public string VendorName { get; set; }
+
+        public string ParentVendorCode { get; set; }
+
+        public string ParentVendorName { get; set; }
+
+        public string vehicleOwner { get; set; }
     }
 
 

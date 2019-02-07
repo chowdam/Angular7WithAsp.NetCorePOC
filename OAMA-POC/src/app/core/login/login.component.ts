@@ -4,17 +4,17 @@ import {
   ViewChild,
   AfterViewInit,
   ElementRef
-} from '@angular/core';
-import { AppUserAuth } from 'src/app/_security/app-user-auth';
-import { AppUser } from 'src/app/_security/app-user';
-import { AuthService } from 'src/app/_security/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+} from "@angular/core";
+import { AppUserAuth } from "src/app/_security/app-user-auth";
+import { AppUser } from "src/app/_security/app-user";
+import { AuthService } from "src/app/_security/auth.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { NgForm } from "@angular/forms";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.css"]
 })
 export class LoginComponent implements OnInit, AfterViewInit {
   user: AppUser = new AppUser();
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   mouseoverLogin = false;
   loginInvalid = false;
 
-  @ViewChild('usernameEle') usernameEleRef: ElementRef;
+  @ViewChild("usernameEle") usernameEleRef: ElementRef;
   @ViewChild(NgForm) loginForm: NgForm;
 
   constructor(
@@ -32,11 +32,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+    this.returnUrl = this.route.snapshot.queryParamMap.get("returnUrl");
   }
 
   ngOnInit() {
-    this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+    this.returnUrl = this.route.snapshot.queryParamMap.get("returnUrl");
   }
 
   ngAfterViewInit(): void {
@@ -52,17 +52,17 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.loginInvalid = true;
           console.log(resp);
           this.securityObject = resp;
-
-          if (this.route.snapshot.queryParamMap.get('returnUrl')) {
+          this.router.navigateByUrl(this.returnUrl);
+          if (this.route.snapshot.queryParamMap.get("returnUrl")) {
             // console.log(this.route.snapshot.queryParamMap.get('returnUrl'));
             this.router.navigate([
-              this.route.snapshot.queryParamMap.get('returnUrl')
+              this.route.snapshot.queryParamMap.get("returnUrl")
             ]);
           }
 
-          this.router.navigate(['home']);
+          // this.router.navigate(['home']);
         } else {
-          this.router.navigate(['contact']);
+          this.router.navigate(["home"]);
         }
       },
       () => {
@@ -73,6 +73,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   cancel() {
-    this.router.navigate(['home']);
+    this.router.navigate(["home"]);
   }
 }
