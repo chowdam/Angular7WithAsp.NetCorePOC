@@ -58,6 +58,7 @@ namespace PocOAMA.Controllers
             _logger.LogDebug($"Called GetPersons method");
             string json = string.Empty;
             string path = _env.WebRootPath + "\\MOCK_DATA.json";
+            
 
             using (StreamReader r = new StreamReader(path))
             {
