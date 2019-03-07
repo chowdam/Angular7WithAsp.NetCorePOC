@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { Inventory } from "../inventory";
 import { InventoryService } from "../inventory.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 import {
   State,
@@ -36,6 +36,7 @@ import { saveAs } from "@progress/kendo-file-saver";
 export class InventoryKendoComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private inventoryService: InventoryService,
     private ngZone: NgZone
   ) {}
@@ -55,6 +56,7 @@ export class InventoryKendoComponent implements OnInit, AfterViewInit {
 
   public myFileTitle = "Inventory_" + new Date().toDateString();
   public myFileName = "Inventory_" + new Date().toDateString() + ".xlsx";
+  public myFileNamePdf = "Inventory_" + new Date().toDateString() + ".pdf";
 
   private data: Object[];
   public selectableSettings: SelectableSettings;
@@ -89,7 +91,7 @@ export class InventoryKendoComponent implements OnInit, AfterViewInit {
     this.loadItems();
     this.setSelectableSettings();
     this.allData = this.allData.bind(this);
-    // console.log(JSON.stringify(this.inventoryData));
+    console.log(JSON.stringify(this.inventoryData[1]));
   }
 
   ngAfterViewInit(): void {
@@ -126,6 +128,24 @@ export class InventoryKendoComponent implements OnInit, AfterViewInit {
       mode: "multiple"
     };
   }
+
+  private loadItems(): void {
+    this.gridView = {
+      data: orderBy(
+        this.inventoryData.slice(this.skip, this.skip + this.pageSize),
+        this.sort
+      ),
+      total: this.inventoryData.length
+    };
+    // console.log("this.gridView data:");
+    // console.log(JSON.stringify(this.gridView));
+  }
+
+  public editHandler({ sender, rowIndex, dataItem }) {
+    const myurl = "/asset/" + dataItem.serialNumber;
+    this.router.navigateByUrl(myurl);
+  }
+
   public allData(): ExcelExportData {
     let selInventory: Inventory[] = [];
     let result: ExcelExportData;
@@ -153,18 +173,6 @@ export class InventoryKendoComponent implements OnInit, AfterViewInit {
     }
 
     return result;
-  }
-
-  private loadItems(): void {
-    this.gridView = {
-      data: orderBy(
-        this.inventoryData.slice(this.skip, this.skip + this.pageSize),
-        this.sort
-      ),
-      total: this.inventoryData.length
-    };
-    // console.log("this.gridView data:");
-    // console.log(JSON.stringify(this.gridView));
   }
   public exportToPDF(grid: GridComponent): void {
     console.log("selected Rows:");
