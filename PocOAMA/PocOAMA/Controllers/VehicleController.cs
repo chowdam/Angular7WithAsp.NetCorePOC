@@ -49,7 +49,7 @@ namespace PocOAMA.Controllers
 
             string json = string.Empty;
 
-            using (StreamReader r = new StreamReader(@"D:\Lakshmi\OPT\OAMAProject\POC\PocOAMA\PocOAMA\Models\VIN_MOCK_DATA.json"))
+            using (StreamReader r = new StreamReader(@"~\Models\VIN_MOCK_DATA.json"))
             {
                 json = r.ReadToEnd();
 

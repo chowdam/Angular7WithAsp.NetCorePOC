@@ -39,6 +39,11 @@ import { NotificationsDashboardModule } from "./notifications-dashboard/notifica
 import { AssetFormComponent } from "./core/asset-form/asset-form.component";
 import { DatepickerPopupComponent } from "./_shared/datepicker-popup/datepicker-popup.component";
 import { AutoCompleteModule } from "primeng/autocomplete";
+import {
+  GridModule,
+  PDFModule,
+  ExcelModule
+} from "@progress/kendo-angular-grid";
 
 @NgModule({
   declarations: [
@@ -65,6 +70,9 @@ import { AutoCompleteModule } from "primeng/autocomplete";
     AutoCompleteModule,
     AgGridModule.withComponents([]),
     NgbModule,
+    GridModule,
+    PDFModule,
+    ExcelModule,
     ErrorsModule,
     InventoryDashboardModule,
     AdminDashboardModule,

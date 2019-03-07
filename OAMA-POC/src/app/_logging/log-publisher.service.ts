@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { throwError, Observable, of } from 'rxjs';
-import { catchError, retry, tap } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { throwError, Observable, of } from "rxjs";
+import { catchError, retry, tap } from "rxjs/operators";
 
 import {
   LogPublishers,
@@ -9,12 +9,12 @@ import {
   LogLocalStorage,
   LogWebApi,
   LogPublisherConfig
-} from './log-publishers';
+} from "./log-publishers";
 
-const PUBLISHERS_FILE = 'assets/log-publishers.json';
+const PUBLISHERS_FILE = "assets/log-publishers.json";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class LogPublisherService {
   publishers: LogPublishers[] = [];
@@ -33,13 +33,13 @@ export class LogPublisherService {
     this.getLoggers().subscribe(resp => {
       for (const pub of resp.filter(p => p.isActive)) {
         switch (pub.loggerName.toLowerCase()) {
-          case 'console':
+          case "console":
             logPub = new LogConsole();
             break;
-          case 'localstorage':
+          case "localstorage":
             logPub = new LogLocalStorage();
             break;
-          case 'webapi':
+          case "webapi":
             logPub = new LogWebApi(this.http);
             break;
         }
@@ -58,22 +58,22 @@ export class LogPublisherService {
   }
 
   private handleError(error: any) {
-    let message = '';
+    let message = "";
     const errors: string[] = [];
 
     console.log(error);
 
-    message = 'Error Name: ' + error.name;
-    message += ' - Status Text' + error.status;
+    message = "Error Name: " + error.name;
+    message += " - Status Text" + error.status;
 
     if (error.error instanceof ErrorEvent) {
-      message += `An error occurred: ${error.error.message}`;
+      message += `An error occurred: ${error.message}`;
     } else {
-      message += `Backend returned code ${error.status}: ${error.body.error}`;
+      message += `Backend returned code ${error.status}: ${error.error}`;
     }
 
     errors.push(message);
-    console.error('An error occured', errors);
+    console.error("An error occured", errors);
 
     return throwError(errors);
   }

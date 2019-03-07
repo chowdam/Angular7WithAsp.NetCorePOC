@@ -7,6 +7,7 @@ import { InventoryAgGridComponent } from "./inventory-ag-grid/inventory-ag-grid.
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { InventoryResolverService } from "./inventory-resolver.service";
+import { InventoryKendoComponent } from "./inventory-kendo/inventory-kendo.component";
 
 const routes: Routes = [
   {
@@ -18,6 +19,12 @@ const routes: Routes = [
   {
     path: "primeng",
     component: InventoryPrimengComponent,
+    canActivate: [AuthGuard],
+    resolve: { inventory: InventoryResolverService }
+  },
+  {
+    path: "kendo",
+    component: InventoryKendoComponent,
     canActivate: [AuthGuard],
     resolve: { inventory: InventoryResolverService }
   },

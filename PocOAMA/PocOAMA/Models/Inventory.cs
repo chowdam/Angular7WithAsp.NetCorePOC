@@ -213,7 +213,7 @@ namespace PocOAMA.Models
 
 
         public DateTime AcquiredDate { get; set; }
-        public DateTime RetiredDate { get; set; }
+        public DateTime? RetiredDate { get; set; }
 
         public string AssetNotes { get; set; }
 
@@ -231,9 +231,9 @@ namespace PocOAMA.Models
 
         public string AssociationStatus { get; set; }
 
-        public DateTime AssociationStartDate { get; set; }
+        public DateTime? AssociationStartDate { get; set; }
 
-        public DateTime AssociationEndDate { get; set; }
+        public DateTime? AssociationEndDate { get; set; }
 
 
 
@@ -247,7 +247,7 @@ namespace PocOAMA.Models
 
         public string ModelYear { get; set; }
 
-        public int VehicleAge { get; set; }
+        public string VehicleAge { get; set; }
         public string VehicleType { get; set; }
 
 
@@ -299,11 +299,11 @@ namespace PocOAMA.Models
         public DateTime? RetiredDate { get; set; }
         [Required]
         public string AssetStatusCode { get; set; }
-        [Required]
+
         public string AssetStatusValue { get; set; }
         [Required]
         public string AssetPossessionCode { get; set; }
-        [Required]
+
         public string AssetPossessionValue { get; set; }
         [Required]
         public string AssociationStatus { get; set; }

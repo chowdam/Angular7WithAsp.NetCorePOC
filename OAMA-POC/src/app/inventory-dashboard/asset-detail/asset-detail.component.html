@@ -1,564 +1,691 @@
 <div class="alert alert-success">
- {{asset | json}}
- <br>
-
-  </div>
-  <div class="alert alert-warning">
-
-       {{assetEditForm.value| json}}
-
-  </div>
+  <!-- {{asset | json}} -->
+  <br />
+</div>
+<div class="alert alert-warning">
+  {{ assetEditForm.value | json }}
+</div>
 
 <div class="container">
+  <div class="card">
+    <div class="card-header">
+      {{ pageTitle }}
+    </div>
 
-<div class="card">
-  <div class="card-header">
-    {{pageTitle}}
+    <div class="card-body">
+      <form
+        novalidate
+        (ngSubmit)="saveAsset()"
+        [formGroup]="assetEditForm"
+        class="assetEditForm"
+      >
+        <!--serialNumber-->
 
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="serialNumberId"
+            >Serial Number</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              size="30"
+              pInputText
+              id="serialNumberId"
+              type="text"
+              formControlName="serialNumber"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('serialNumber').valid &&
+                  assetEditForm.get('serialNumber').dirty
+              }"
+            />
 
-  </div>
-
-  <div class="card-body">
-    <form novalidate
-          (ngSubmit)="saveAsset()"
-          [formGroup]="assetEditForm" class="assetEditForm">
-
- <!--serialNumber-->
-
-      <div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="serialNumberId">Serial Number</label>
-        <div class="col-md-8">
-          <input class="form-control"
-              size="30" pInputText
-                 id="serialNumberId"
-                 type="text"
-                 formControlName="serialNumber"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('serialNumber').valid  && assetEditForm.get('serialNumber').dirty}" />
-
-          <span class="invalid-feedback">
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('serialNumber').errors?.required">
                 Please enter Serial Number
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
+        <!--ttnmAccount-->
 
-<!--ttnmAccount-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="ttnmAccountId"
+            >TTNM Account</label
+          >
+          <div class="col-md-8">
+            <select [formControl]="assetEditForm.controls['ttnmAccount']">
+              <option [value]=""> Select </option>
+              <option *ngFor="let ta of ttnmAccountValues" [value]="ta.code">
+                {{ ta.description }}
+              </option>
+            </select>
 
-       <div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="ttnmAccountId">TTNM Account</label>
-        <div class="col-md-8">
-
-          <select [formControl]="assetEditForm.controls['ttnmAccount']">
-          <option  [value]=""> Select </option>
-            <option *ngFor="let ta of ttnmAccountValues" [value]="ta.code">
-                          {{ta.description}}
-                      </option>
-          </select>
-
-
-          <span class="invalid-feedback">
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('ttnmAccount').errors?.required">
                 Please select ttnmAccount
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
+        <!--ttnmGroup-->
 
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="ttnmGroupId"
+            >TTNM Group</label
+          >
+          <div class="col-md-8">
+            <select [formControl]="assetEditForm.controls['ttnmGroup']">
+              <option [value]=""> Select </option>
+              <option *ngFor="let tg of ttnmGroupValues" [value]="tg.code">
+                {{ tg.description }}
+              </option>
+            </select>
 
-<!--ttnmGroup-->
-
-    <div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="ttnmGroupId">TTNM Group</label>
-        <div class="col-md-8">
-
-          <select [formControl]="assetEditForm.controls['ttnmGroup']">
-          <option  [value]=""> Select </option>
-            <option *ngFor="let tg of ttnmGroupValues" [value]="tg.code">
-                          {{tg.description}}
-                      </option>
-          </select>
-
-          <span class="invalid-feedback">
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('ttnmGroup').errors?.required">
                 Please select ttnmGroup
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-
-
-
-<!--softwareType-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="softwareTypeId">Software Type</label>
-        <div class="col-md-8">
-          <select [formControl]="assetEditForm.controls['softwareType']">
-              <option  [value]=""> Select </option>
+        <!--softwareType-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="softwareTypeId"
+            >Software Type</label
+          >
+          <div class="col-md-8">
+            <select [formControl]="assetEditForm.controls['softwareType']">
+              <option [value]=""> Select </option>
               <option *ngFor="let st of softwareTypeValues" [value]="st.code">
-                          {{st.description}}
-                      </option>
-          </select>
-          <span class="invalid-feedback">
+                {{ st.description }}
+              </option>
+            </select>
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('softwareType').errors?.required">
                 Please select assetStatus
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-
-
-<!--assetAge-->
-       <div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="assetAgeId">Asset Age</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="assetAgeId"
-                 type="text"
-                 pKeyFilter="int"
-                 placeholder="Age (required)"
-                 formControlName="assetAge"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('assetAge').valid  && assetEditForm.get('assetAge').dirty}" />
-          <span class="invalid-feedback">
+        <!--assetAge-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="assetAgeId"
+            >Asset Age</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="assetAgeId"
+              type="text"
+              pKeyFilter="int"
+              placeholder="Age (required)"
+              formControlName="assetAge"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('assetAge').valid &&
+                  assetEditForm.get('assetAge').dirty
+              }"
+            />
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('assetAge').errors?.required">
                 Please enter assetAge
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-<!--assetUseTime-->
- <div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="assetUseTimeId">Asset Use Time</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="assetUseTimeId"
-                 type="text"
-                 pKeyFilter="int"
-                 placeholder="Asset Use Time (required)"
-                 formControlName="assetUseTime"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('assetUseTime').valid && assetEditForm.get('assetUseTime').dirty }" />
-          <span class="invalid-feedback">
+        <!--assetUseTime-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="assetUseTimeId"
+            >Asset Use Time</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="assetUseTimeId"
+              type="text"
+              pKeyFilter="int"
+              placeholder="Asset Use Time (required)"
+              formControlName="assetUseTime"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('assetUseTime').valid &&
+                  assetEditForm.get('assetUseTime').dirty
+              }"
+            />
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('assetUseTime').errors?.required">
                 Please enter assetUseTime
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
+        <!--acquiredDate-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="acquiredDateId"
+            >Acquired Date</label
+          >
+          <div class="col-md-8">
+            <p-calendar
+              formControlName="acquiredDate"
+              [(ngModel)]="aqrdDate"
+              [showIcon]="true"
+              (onSelect)="validateAacquiredDate()"
+            ></p-calendar>
 
-
-<!--acquiredDate-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="acquiredDateId">Acquired Date</label>
-        <div class="col-md-8">
-
-           <p-calendar  formControlName="acquiredDate" [(ngModel)]="aqrdDate" [showIcon]="true" (onSelect)="validateAacquiredDate()"></p-calendar>
-
-          <span class="invalid-feedback">
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('acquiredDate').errors?.required">
                 Please enter acquiredDate
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
+        <!--retiredDate-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="retiredDateId"
+            >Retired Date</label
+          >
+          <div class="col-md-8">
+            <p-calendar
+              formControlName="retiredDate"
+              [(ngModel)]="rtrdDate"
+              [showIcon]="true"
+              (onSelect)="validateRetiredDate()"
+            ></p-calendar>
 
-<!--retiredDate-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="retiredDateId">Retired Date</label>
-        <div class="col-md-8">
-         <p-calendar  formControlName="retiredDate" [(ngModel)]="rtrdDate" [showIcon]="true" (onSelect)="validateRetiredDate()"></p-calendar>
-
-
-          <span class="invalid-feedback">
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('retiredDate').errors?.required">
                 Please enter retiredDate
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-<!--assetNotes-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="assetNotesId">Asset Notes</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="assetNotesId"
-                 type="textarea"
-                 placeholder="Asset Notes"
-                 formControlName="assetNotes"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('assetNotes').valid && assetEditForm.get('assetNotes').dirty }" />
-          <span class="invalid-feedback">
+        <!--assetNotes-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="assetNotesId"
+            >Asset Notes</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="assetNotesId"
+              type="textarea"
+              placeholder="Asset Notes"
+              formControlName="assetNotes"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('assetNotes').valid &&
+                  assetEditForm.get('assetNotes').dirty
+              }"
+            />
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('assetNotes').errors?.required">
                 Please enter assetNotes
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
+        <br />
+        <hr />
+        <br />
+        <!--Vehicle Association Section-->
 
-<br>
-<hr>
-<br>
-<!--Vehicle Association Section-->
+        <!--assetStatus-->
 
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="assetStatusId"
+            >Asset Status</label
+          >
+          <div class="col-md-8">
+            <p-dropdown
+              [options]="currentAssetStatusCodesValues"
+              [(ngModel)]="selectedAssetStatus"
+              placeholder="--Select--"
+              [showClear]="true"
+              [ngModelOptions]="{ standalone: true }"
+            ></p-dropdown>
 
-
-<!--assetStatus-->
-
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="assetStatusId">Asset Status</label>
-        <div class="col-md-8">
-        <p-dropdown [options]="currentAssetStatusCodes" [(ngModel)]="selectedAssetStatus" placeholder="--Select--" [showClear]="true" [ngModelOptions]="{standalone: true}"></p-dropdown>
-
-          <span class="invalid-feedback">
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('assetStatus').errors?.required">
                 Please select assetStatus
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-
-<!--assetPossession-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="assetPossessionId">Asset Possession</label>
-        <div class="col-md-8">
-          <p-dropdown [options]="assetPossesionData" [(ngModel)]="selectedAssetPossesion" placeholder="--Select--" [showClear]="true" [ngModelOptions]="{standalone: true}"></p-dropdown>
-          <span class="invalid-feedback">
-              <span *ngIf="assetEditForm.get('assetPossession').errors?.required">
+        <!--assetPossession-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="assetPossessionId"
+            >Asset Possession</label
+          >
+          <div class="col-md-8">
+            <p-dropdown
+              [options]="assetPossesionValues"
+              [(ngModel)]="selectedAssetPossesion"
+              placeholder="--Select--"
+              [showClear]="true"
+              [ngModelOptions]="{ standalone: true }"
+            ></p-dropdown>
+            <span class="invalid-feedback">
+              <span
+                *ngIf="assetEditForm.get('assetPossession').errors?.required"
+              >
                 Please select assetPossession
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-
-<!--associationStatus-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="associationStatusId">Association Status</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="associationStatusId"
-                 type="text"
-                 placeholder="Association Status (required)"
-                 formControlName="associationStatus"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('associationStatus').valid && assetEditForm.get('associationStatus').dirty}" />
-          <span class="invalid-feedback">
-              <span *ngIf="assetEditForm.get('associationStatus').errors?.required">
+        <!--associationStatus-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="associationStatusId"
+            >Association Status</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="associationStatusId"
+              type="text"
+              placeholder="Association Status (required)"
+              formControlName="associationStatus"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('associationStatus').valid &&
+                  assetEditForm.get('associationStatus').dirty
+              }"
+            />
+            <span class="invalid-feedback">
+              <span
+                *ngIf="assetEditForm.get('associationStatus').errors?.required"
+              >
                 Please enter associationStatus
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-<!--associationStartDate-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="associationStartDateId">Association Start Date</label>
-        <div class="col-md-8">
-           <p-calendar  formControlName="associationStartDate" [(ngModel)]="assocStartDate" [showIcon]="true" (onSelect)="validatAssociationStartDate()"></p-calendar>
-          <span class="invalid-feedback">
-              <span *ngIf="assetEditForm.get('associationStartDate').errors?.required">
+        <!--associationStartDate-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="associationStartDateId"
+            >Association Start Date</label
+          >
+          <div class="col-md-8">
+            <p-calendar
+              formControlName="associationStartDate"
+              [(ngModel)]="assocStartDate"
+              [showIcon]="true"
+              (onSelect)="validatAssociationStartDate()"
+            ></p-calendar>
+            <span class="invalid-feedback">
+              <span
+                *ngIf="
+                  assetEditForm.get('associationStartDate').errors?.required
+                "
+              >
                 Please enter associationStartDate
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-
-<!--associationEndDate-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="associationEndDateId">Association End Date</label>
-        <div class="col-md-8">
-          <p-calendar  formControlName="associationEndDate" [(ngModel)]="assocEndDate" [showIcon]="true" (onSelect)="validatAssociationEndDate()"></p-calendar>
-          <span class="invalid-feedback">
-              <span *ngIf="assetEditForm.get('associationEndDate').errors?.required">
+        <!--associationEndDate-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="associationEndDateId"
+            >Association End Date</label
+          >
+          <div class="col-md-8">
+            <p-calendar
+              formControlName="associationEndDate"
+              [(ngModel)]="assocEndDate"
+              [showIcon]="true"
+              (onSelect)="validatAssociationEndDate()"
+            ></p-calendar>
+            <span class="invalid-feedback">
+              <span
+                *ngIf="assetEditForm.get('associationEndDate').errors?.required"
+              >
                 Please enter associationEndDate
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
+        <br />
+        <hr />
+        <br />
+        <!--Vehicle Info section-->
 
-
-<br>
-<hr>
-<br>
-<!--Vehicle Info section-->
-
-<!--vin-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="vinId">VIN</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="vinId"
-                 type="text"
-                 placeholder="vin (required)"
-                 formControlName="vin"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('vin').valid && assetEditForm.get('vin').dirty }" />
-          <span class="invalid-feedback">
+        <!--vin-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="vinId">VIN</label>
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="vinId"
+              type="text"
+              placeholder="vin (required)"
+              formControlName="vin"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('vin').valid &&
+                  assetEditForm.get('vin').dirty
+              }"
+            />
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('vin').errors?.required">
                 Please enter vin
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-<!--modelYear-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="modelYearId">Model Year</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="modelYearId"
-                 type="text"
-                 placeholder="Model Year (required)"
-                 formControlName="modelYear"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('modelYear').valid && assetEditForm.get('modelYear').dirty }" />
-          <span class="invalid-feedback">
+        <!--modelYear-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="modelYearId"
+            >Model Year</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="modelYearId"
+              type="text"
+              placeholder="Model Year (required)"
+              formControlName="modelYear"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('modelYear').valid &&
+                  assetEditForm.get('modelYear').dirty
+              }"
+            />
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('modelYear').errors?.required">
                 Please enter modelYear
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-<!--vehicleAge-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="vehicleAgeId">Vehicle Age</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="vehicleAgeId"
-                 type="text"
-                 placeholder="Vehicle Age (required)"
-                 formControlName="vehicleAge"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('vehicleAge').valid  && assetEditForm.get('vehicleAge').dirty}" />
-          <span class="invalid-feedback">
+        <!--vehicleAge-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="vehicleAgeId"
+            >Vehicle Age</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="vehicleAgeId"
+              type="text"
+              placeholder="Vehicle Age (required)"
+              formControlName="vehicleAge"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('vehicleAge').valid &&
+                  assetEditForm.get('vehicleAge').dirty
+              }"
+            />
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('vehicleAge').errors?.required">
                 Please enter vehicleAge
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-<!--vehicleType-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="vehicleTypeId">Vehicle Type</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="vehicleTypeId"
-                 type="text"
-                 placeholder="Vehicle Type (required)"
-                 formControlName="vehicleType"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('vehicleType').valid && assetEditForm.get('vehicleType').dirty }" />
-          <span class="invalid-feedback">
+        <!--vehicleType-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="vehicleTypeId"
+            >Vehicle Type</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="vehicleTypeId"
+              type="text"
+              placeholder="Vehicle Type (required)"
+              formControlName="vehicleType"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('vehicleType').valid &&
+                  assetEditForm.get('vehicleType').dirty
+              }"
+            />
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('vehicleType').errors?.required">
                 Please enter vehicleType
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-
-<!--vehicleStatus-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="vehicleStatusId">Vehicle Status</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="vehicleStatusId"
-                 type="text"
-                 placeholder="Vehicle Status (required)"
-                 formControlName="vehicleStatus"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('vehicleStatus').valid  && assetEditForm.get('vehicleStatus').dirty}" />
-          <span class="invalid-feedback">
+        <!--vehicleStatus-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="vehicleStatusId"
+            >Vehicle Status</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="vehicleStatusId"
+              type="text"
+              placeholder="Vehicle Status (required)"
+              formControlName="vehicleStatus"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('vehicleStatus').valid &&
+                  assetEditForm.get('vehicleStatus').dirty
+              }"
+            />
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('vehicleStatus').errors?.required">
                 Please enter vehicleStatus
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-
-<!--busNumber-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="busNumberId">Bus Number</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="busNumberId"
-                 type="text"
-                 placeholder="Bus Number (required)"
-                 formControlName="busNumber"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('busNumber').valid  && assetEditForm.get('busNumber').dirty}" />
-          <span class="invalid-feedback">
+        <!--busNumber-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="busNumberId"
+            >Bus Number</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="busNumberId"
+              type="text"
+              placeholder="Bus Number (required)"
+              formControlName="busNumber"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('busNumber').valid &&
+                  assetEditForm.get('busNumber').dirty
+              }"
+            />
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('busNumber').errors?.required">
                 Please enter busNumber
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-
-
-<!--licensePlate-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="licensePlateId">License Plate</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="licensePlateId"
-                 type="text"
-                 placeholder="License Plate(required)"
-                 formControlName="licensePlate"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('licensePlate').valid && assetEditForm.get('licensePlate').dirty }" />
-          <span class="invalid-feedback">
+        <!--licensePlate-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="licensePlateId"
+            >License Plate</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="licensePlateId"
+              type="text"
+              placeholder="License Plate(required)"
+              formControlName="licensePlate"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('licensePlate').valid &&
+                  assetEditForm.get('licensePlate').dirty
+              }"
+            />
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('licensePlate').errors?.required">
                 Please enter licensePlate
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-
-<!--garage-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="garageId">Garage Address</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="garageId"
-                 type="text"
-                 placeholder="Garage Address(required)"
-                 formControlName="garage"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('garage').valid && assetEditForm.get('garage').dirty}" />
-          <span class="invalid-feedback">
+        <!--garage-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="garageId"
+            >Garage Address</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="garageId"
+              type="text"
+              placeholder="Garage Address(required)"
+              formControlName="garage"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('garage').valid &&
+                  assetEditForm.get('garage').dirty
+              }"
+            />
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('garage').errors?.required">
                 Please enter garage
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-
-<!--sbcCode-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="sbcCodeId">Parent SBC Code_Name</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="sbcCodeId"
-                 type="text"
-                 placeholder="sbc Code(required)"
-                 formControlName="sbcCode"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('sbcCode').valid && assetEditForm.get('sbcCode').dirty}" />
-          <span class="invalid-feedback">
+        <!--sbcCode-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="sbcCodeId"
+            >Parent SBC Code_Name</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="sbcCodeId"
+              type="text"
+              placeholder="sbc Code(required)"
+              formControlName="sbcCode"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('sbcCode').valid &&
+                  assetEditForm.get('sbcCode').dirty
+              }"
+            />
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('sbcCode').errors?.required">
                 Please enter sbcCode
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-
-<!--sbcName-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="sbcNameId">SBC Code_Name</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="sbcNameId"
-                 type="text"
-                 placeholder="sbcName (required)"
-                 formControlName="sbcName"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('sbcName').valid && assetEditForm.get('sbcName').dirty}" />
-          <span class="invalid-feedback">
+        <!--sbcName-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="sbcNameId"
+            >SBC Code_Name</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="sbcNameId"
+              type="text"
+              placeholder="sbcName (required)"
+              formControlName="sbcName"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('sbcName').valid &&
+                  assetEditForm.get('sbcName').dirty
+              }"
+            />
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('sbcName').errors?.required">
                 Please enter sbcName
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
-
-
-<!--vehicleOwner-->
-<div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label"
-               for="vehicleOwnerId">Vehicle Owner</label>
-        <div class="col-md-8">
-          <input class="form-control"
-                 id="vehicleOwnerId"
-                 type="text"
-                 placeholder="Vehicle Owner(required)"
-                 formControlName="vehicleOwner"
-                 [ngClass]="{'is-invalid': !assetEditForm.get('vehicleOwner').valid  && assetEditForm.get('vehicleOwner').dirty}" />
-          <span class="invalid-feedback">
+        <!--vehicleOwner-->
+        <div class="form-group row mb-2">
+          <label class="col-md-2 col-form-label" for="vehicleOwnerId"
+            >Vehicle Owner</label
+          >
+          <div class="col-md-8">
+            <input
+              class="form-control"
+              id="vehicleOwnerId"
+              type="text"
+              placeholder="Vehicle Owner(required)"
+              formControlName="vehicleOwner"
+              [ngClass]="{
+                'is-invalid':
+                  !assetEditForm.get('vehicleOwner').valid &&
+                  assetEditForm.get('vehicleOwner').dirty
+              }"
+            />
+            <span class="invalid-feedback">
               <span *ngIf="assetEditForm.get('vehicleOwner').errors?.required">
                 Please enter vehicle Owner
               </span>
-          </span>
+            </span>
+          </div>
         </div>
-      </div>
 
+        <!--Save & Cancel-->
+        <div class="form-group row mb-2">
+          <div class="offset-md-2 col-md-4">
+            <button
+              class="btn btn-primary mr-3"
+              style="width:80px;"
+              type="submit"
+              [title]="
+                assetEditForm.valid
+                  ? 'Save your entered data'
+                  : 'Disabled until the form data is valid'
+              "
+              [disabled]="!assetEditForm.valid"
+            >
+              Save
+            </button>
+            <button
+              class="btn btn-secondary mr-3"
+              style="width:80px;"
+              type="button"
+              title="Cancel your edits"
+              [routerLink]="['/primeng']"
+            >
+              Cancel
+            </button>
 
-
-<!--Save & Cancel-->
-      <div class="form-group row mb-2">
-        <div class="offset-md-2 col-md-4">
-          <button class="btn btn-primary mr-3"
-                  style="width:80px;"
-                  type="submit"
-                  [title]="assetEditForm.valid ? 'Save your entered data' : 'Disabled until the form data is valid'"
-                  [disabled]="!assetEditForm.valid">
-            Save
-          </button>
-          <button class="btn btn-secondary mr-3"
-                  style="width:80px;"
-                  type="button"
-                  title="Cancel your edits"
-                  [routerLink]="['/primeng']">
-            Cancel
-          </button>
-
-           <button class="btn btn-warning mr-3"
-                  style="width:80px;"
-                  type="button"
-                  title="Reset your form"
-                  (onclick)="reset">
-            Reset
-          </button>
-
+            <button
+              class="btn btn-warning mr-3"
+              style="width:80px;"
+              type="button"
+              title="Reset your form"
+              (onclick)="(reset)"
+            >
+              Reset
+            </button>
+          </div>
         </div>
-      </div>
-
-    </form>
-  </div>
-
-
+      </form>
     </div>
   </div>
-
-
+</div>

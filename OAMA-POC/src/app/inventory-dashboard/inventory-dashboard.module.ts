@@ -28,13 +28,20 @@ import { AgGridModule } from "ag-grid-angular";
 import { AlertifyService } from "../_logging/alertify.service";
 import { LoggingService } from "../_logging/logging.service";
 import { LogPublisherService } from "../_logging/log-publisher.service";
+import { InventoryKendoComponent } from "./inventory-kendo/inventory-kendo.component";
+import {
+  GridModule,
+  PDFModule,
+  ExcelModule
+} from "@progress/kendo-angular-grid";
 
 @NgModule({
   declarations: [
     InventoryListComponent,
     AssetDetailComponent,
     InventoryPrimengComponent,
-    InventoryAgGridComponent
+    InventoryAgGridComponent,
+    InventoryKendoComponent
   ],
   imports: [
     CommonModule,
@@ -53,6 +60,9 @@ import { LogPublisherService } from "../_logging/log-publisher.service";
     RadioButtonModule,
     KeyFilterModule,
     CalendarModule,
+    GridModule,
+    PDFModule,
+    ExcelModule,
     InventoryDashboardRoutingModule
   ],
   providers: [AlertifyService, LoggingService, LogPublisherService],

@@ -40,6 +40,8 @@ export class AssetDetailComponent implements OnInit, AfterViewInit {
   assetEditForm: FormGroup;
   pageTitle = "Edit Asset";
   assetData: AssetVM = new AssetVM();
+  selectedAssetStatus;
+  selectedAssetPossesion;
 
   ttnmAccountValues = ttnmAccountData;
   ttnmGroupValues = ttnmGroupData;

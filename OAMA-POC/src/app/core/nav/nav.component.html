@@ -1,22 +1,44 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
   <a routerLink="/home" class="navbar-brand" href="#">
-                <i class="fa fa-bus"></i> OPT</a>
-  <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
-      aria-expanded="false" aria-label="Toggle navigation">
+    <i class="fa fa-bus"></i> OPT</a
+  >
+  <button
+    class="navbar-toggler d-lg-none"
+    type="button"
+    data-toggle="collapse"
+    data-target="#collapsibleNavId"
+    aria-controls="collapsibleNavId"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavId">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item active">
-        <a class="nav-link" href="" routerLink="/home" routerLinkActive="active">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="" routerLink="/home" routerLinkActive="active"
+          >Home <span class="sr-only">(current)</span></a
+        >
       </li>
-              <li class="nav-item">
-                <a class="nav-link" href="" routerLink="/about">About</a>
-               </li>
-               <li class="nav-item">
-                  <a class="nav-link" href="" routerLink="/contact">Contact</a>
-              </li>
-               <li class="nav-item">
+      <li class="nav-item">
+        <a class="nav-link" href="" routerLink="/about">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="" routerLink="/contact">Contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="" routerLink="/inventory"> Inventory </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="" routerLink="/primeng"> PrimeNG </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="" routerLink="/kendo"> Kendo </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="" routerLink="/aggrid"> AgGrid </a>
+      </li>
+      <!-- <li class="nav-item">
                     <a class="nav-link" href="" routerLink="/inventory" *ngIf="securityObject.canAccessInventory"> Inventory </a>
                 </li>
                 <li class="nav-item">
@@ -24,41 +46,51 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="" routerLink="/aggrid" *ngIf="securityObject.canAccessInventory"> AgGrid </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="" routerLink="/assetfrm">Asset Form</a>
-                </li>
-                <!--
+                </li> -->
+      <li class="nav-item">
+        <a class="nav-link" href="" routerLink="/assetfrm">Asset Form</a>
+      </li>
+      <!--
                   <li class="nav-item">
                     <a class="nav-link" href="" routerLink="/notifications" *ngIf="securityObject.canAccessNotifications"> Notifications </a>
                 </li>
                 -->
-                <li class="nav-item">
-                    <a class="nav-link" href="" routerLink="/admin" *ngIf="securityObject.isAdmin"> Admin </a>
-
-                </li>
-
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          href=""
+          routerLink="/admin"
+          *ngIf="securityObject.isAdmin"
+        >
+          Admin
+        </a>
+      </li>
     </ul>
     <ul class="navbar-nav navbar-right">
-                <li class="nav-item" *ngIf="securityObject.isAuthenticated">
-                       <h6 class="nav-link" > Welcome {{securityObject.userName | titlecase}}! &nbsp;&nbsp;</h6>
+      <li class="nav-item" *ngIf="securityObject.isAuthenticated">
+        <h6 class="nav-link">
+          Welcome {{ securityObject.userName | titlecase }}! &nbsp;&nbsp;
+        </h6>
+      </li>
 
-                </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="login"
+          *ngIf="!securityObject.isAuthenticated"
+        >
+          Login <i class="fa fa-sign-in" aria-hidden="true"></i>
+        </a>
 
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="login" *ngIf="!securityObject.isAuthenticated">
-                      Login    <i class="fa fa-sign-in" aria-hidden="true"></i>
-                    </a>
-
-                    <a class="nav-link" href="#" (onclick)="logout()" *ngIf="securityObject.isAuthenticated">
-                      Logout  <i class="fa fa-sign-out" aria-hidden="true"></i>
-                    </a>
-                </li>
-
-
-
-
-
-            </ul>
+        <a
+          class="nav-link"
+          href="#"
+          (onclick)="logout()"
+          *ngIf="securityObject.isAuthenticated"
+        >
+          Logout <i class="fa fa-sign-out" aria-hidden="true"></i>
+        </a>
+      </li>
+    </ul>
   </div>
 </nav>

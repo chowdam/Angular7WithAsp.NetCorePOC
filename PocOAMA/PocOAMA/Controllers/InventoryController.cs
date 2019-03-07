@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using PocOAMA.Models;
 using System.IO;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Hosting;
 
 namespace PocOAMA.Controllers
 {
@@ -17,9 +18,12 @@ namespace PocOAMA.Controllers
     public class InventoryController : ControllerBase
     {
         protected readonly ILogger<InventoryController> _logger;
+        private IHostingEnvironment _env;
 
-        public InventoryController(ILogger<InventoryController> logger = null)
+        public InventoryController(IHostingEnvironment env, ILogger<InventoryController> logger = null)
         {
+            _env = env;
+
             if (null != logger)
             {
                 _logger = logger;
@@ -53,8 +57,9 @@ namespace PocOAMA.Controllers
         {
             _logger.LogDebug($"Called GetPersons method");
             string json = string.Empty;
+            string path = _env.WebRootPath + "\\MOCK_DATA.json";
 
-            using (StreamReader r = new StreamReader(@"D:\Lakshmi\OPT\OAMAProject\POC\PocOAMA\PocOAMA\Models\MOCK_DATA.json"))
+            using (StreamReader r = new StreamReader(path))
             {
                 json = r.ReadToEnd();
 
@@ -102,7 +107,6 @@ namespace PocOAMA.Controllers
 
 
             GenFu.GenFu.Configure<AssetVM>()
-                .Fill(p => p.VehicleAge).WithinRange(1, 20)
                 .Fill(p => p.TtnmAccountName).WithRandom(ttnmAccountNameData)
                 .Fill(p => p.TtnmAccountGroup).WithRandom(ttnmAccountGroupData)
 
@@ -151,7 +155,7 @@ namespace PocOAMA.Controllers
         // POST: api/Inventory
         [Route("[action]")]
         [HttpPost]
-        public IActionResult SaveNewAsset([FromBody] AssetInventoryClientModel value)
+        public IActionResult SaveNewAsset([FromBody] AssetVM value)
         {
             return Ok(value);
         }

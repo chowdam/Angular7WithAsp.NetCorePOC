@@ -79,9 +79,9 @@ export class AuthService {
   signin(entity: AppUser): Observable<AppUserAuth> {
     // Initialize security object
     this.resetSecurityObject();
-    entity.userName = "OnboardAMAadmin";
-    entity.password = "1478C4C9-624E-4D8E-A95F-F7E000F06673";
-    const apiloginUrl = "https://oamasvc.azurewebsites.net/api/Auth/login";
+    // entity.userName = "OnboardAMAadmin";
+    // entity.password = "1478C4C9-624E-4D8E-A95F-F7E000F06673";
+    const apiloginUrl = "https://pocoama.azurewebsites.net/api/user/signin";
     // "https://pocoama.azurewebsites.net/api/user/signin"; // "https://oamasvc.azurewebsites.net/api/Auth/login";
 
     return this.http.post<AppUserAuth>(apiloginUrl, entity, httpOptions).pipe(

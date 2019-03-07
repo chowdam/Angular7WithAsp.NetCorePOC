@@ -1,0 +1,121 @@
+<h2>Inventory List using Telerik Kendo UI Grid</h2>
+<br />
+<!-- <p>
+  <button (click)="exportToPDF(grid)">Export Grid to PDF...</button>
+</p>
+&nbsp;
+<p>
+  <button (click)="exportToExcel(grid)">Export Grid to Excel...</button>
+</p>
+<br /> -->
+<kendo-grid
+  #grid
+  [data]="gridView"
+  [pageSize]="pageSize"
+  [pageable]="{
+    buttonCount: buttonCount,
+    info: info,
+    type: type,
+    pageSizes: pageSizes,
+    previousNext: previousNext
+  }"
+  [skip]="skip"
+  [sortable]="true"
+  [sort]="sort"
+  [filterable]="true"
+  [resizable]="true"
+  [reorderable]="true"
+  [columnMenu]="true"
+  [selectable]="selectableSettings"
+  [selectedKeys]="mySelection"
+  [kendoGridSelectBy]="mySelectionKey"
+  [height]="710"
+  (sortChange)="sortChange($event)"
+  (pageChange)="pageChange($event)"
+  (dataStateChange)="dataStateChange($event)"
+>
+  <ng-template kendoGridToolbarTemplate>
+    <button class="k-button" (click)="grid.autoFitColumns()">
+      Auto-fit all columns
+    </button>
+    &nbsp;
+    <button type="button" kendoGridExcelCommand icon="file-excel">
+      Export to Excel
+    </button>
+    &nbsp;
+    <button kendoGridPDFCommand icon="file-pdf">Export to PDF</button>
+  </ng-template>
+  <kendo-grid-checkbox-column showSelectAll="true"></kendo-grid-checkbox-column>
+  <kendo-grid-column
+    field="serialNumber"
+    title="Serial Number"
+    [width]="30"
+    [minResizableWidth]="10"
+    [columnMenu]="false"
+  ></kendo-grid-column>
+  <kendo-grid-column
+    field="assetPossession"
+    title="Asset Possession"
+    [width]="30"
+    [minResizableWidth]="10"
+    [columnMenu]="false"
+  ></kendo-grid-column>
+  <kendo-grid-column
+    field="assetStatus"
+    title="Asset Status"
+    filter="numeric"
+    [width]="20"
+    [minResizableWidth]="10"
+    [columnMenu]="false"
+  ></kendo-grid-column>
+  <kendo-grid-column
+    field="vin"
+    title="VIN"
+    [width]="30"
+    [minResizableWidth]="10"
+    [columnMenu]="false"
+  ></kendo-grid-column>
+  <kendo-grid-column
+    field="dateAcquired"
+    title="Acquired Date"
+    [width]="30"
+    filter="date"
+    format="{0:d}"
+    [minResizableWidth]="10"
+    [columnMenu]="false"
+  ></kendo-grid-column>
+
+  <kendo-grid-excel
+    fileName="{{ myFileName }}"
+    [fetchData]="allData"
+  ></kendo-grid-excel>
+
+  <kendo-grid-pdf
+    fileName="{{ myFileName }}"
+    [allPages]="false"
+    paperSize="A4"
+    [repeatHeaders]="true"
+    [landscape]="true"
+    [scale]="0.8"
+  >
+    <kendo-grid-pdf-margin
+      top="2cm"
+      left="1cm"
+      right="1cm"
+      bottom="2cm"
+    ></kendo-grid-pdf-margin>
+    <ng-template
+      kendoGridPDFTemplate
+      let-pageNum="pageNum"
+      let-totalPages="totalPages"
+    >
+      <div class="page-template">
+        <div class="header">
+          <div style="float: right">Page {{ pageNum }} of {{ totalPages }}</div>
+          {{ myFileTitle }}
+        </div>
+        <div class="footer">Page {{ pageNum }} of {{ totalPages }}</div>
+      </div>
+    </ng-template>
+  </kendo-grid-pdf>
+</kendo-grid>

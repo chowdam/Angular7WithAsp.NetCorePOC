@@ -3,6 +3,7 @@ export interface Inventory {
   SerialNumber: string;
   AssetStatus: string;
   StoragePossession: string;
+  DateAcquired: string;
 
   // Vehicle Association related
   VehicleAssociationStatus: string;
